@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Appunti Crittografia/Lezione 7-8.md",
+                "file": "Appunti Crittografia/Lezione 6.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Lezione 7-8"
+              "title": "Lezione 6"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Appunti Crittografia/Lezione 7-8.md",
+                "file": "Appunti Crittografia/Lezione 6.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Riferimenti a Lezione 7-8"
+              "title": "Riferimenti a Lezione 6"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Appunti Crittografia/Lezione 7-8.md",
+                "file": "Appunti Crittografia/Lezione 6.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Collegamenti in uscita da Lezione 7-8"
+              "title": "Collegamenti in uscita da Lezione 6"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Appunti Crittografia/Lezione 7-8.md",
+                "file": "Appunti Crittografia/Lezione 6.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Struttura di Lezione 7-8"
+              "title": "Struttura di Lezione 6"
             }
           },
           {
@@ -196,16 +196,17 @@
   },
   "active": "f524b19e837e9d71",
   "lastOpenFiles": [
-    "Appunti Crittografia/Guida.md",
-    "Appunti Crittografia/Pasted image 20260322173843.png",
-    "Appunti Crittografia/Lezione 6.md",
-    "Appunti Crittografia/Pasted image 20260322183707.png",
-    "Appunti Crittografia/Pasted image 20260322183654.png",
-    "Appunti Crittografia/Pasted image 20260322183627.png",
     "Appunti Crittografia/Lezione 7-8.md",
-    "Appunti Crittografia/Pasted image 20260322174831.png",
-    "Appunti Crittografia/Pasted image 20260322174742.png",
-    "Appunti Crittografia/Pasted image 20260322174724.png",
+    "Appunti Crittografia/IMG/Pasted image 20260322183707.png",
+    "Appunti Crittografia/IMG",
+    "Appunti Crittografia/Guida.md",
+    "Appunti Crittografia/IMG/Pasted image 20260322173843.png",
+    "Appunti Crittografia/Lezione 6.md",
+    "Appunti Crittografia/IMG/Pasted image 20260322183654.png",
+    "Appunti Crittografia/IMG/Pasted image 20260322183627.png",
+    "Appunti Crittografia/IMG/Pasted image 20260322174831.png",
+    "Appunti Crittografia/IMG/Pasted image 20260322174742.png",
+    "Appunti Crittografia/IMG/Pasted image 20260322174724.png",
     "Appunti Crittografia/Lezione 5.md",
     "Pasted image 20260322172811.png.md",
     "Appunti Crittografia/Pasted image 20260322172811.png",
