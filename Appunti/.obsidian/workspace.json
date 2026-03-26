@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "35664f587bb29b7d",
+        "id": "b21f31206a116ac6",
         "type": "tabs",
         "children": [
           {
-            "id": "c08dd96f409e119b",
+            "id": "fd4916ef9f416f1f",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -192,7 +192,7 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "c08dd96f409e119b",
+  "active": "fd4916ef9f416f1f",
   "lastOpenFiles": [
     "Appunti Advanced Database Systems/Note sull'esame.md",
     "conflict-files-obsidian-git.md",
