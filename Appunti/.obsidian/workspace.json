@@ -4,95 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "1ec298e5195759e2",
+        "id": "b6b2574b52fc78cb",
         "type": "tabs",
         "children": [
           {
-            "id": "bfd7af0c48cf6906",
+            "id": "559d93fdd5c3ac7c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Appunti Advanced Database Systems/Lezione X Transaction Part II.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Lezione X Transaction Part II"
-            }
-          },
-          {
-            "id": "9698011b4993581e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Senza nome.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Senza nome"
-            }
-          },
-          {
-            "id": "bb9286969083acba",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Senza nome 1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Senza nome 1"
-            }
-          },
-          {
-            "id": "05bdb68a23124eb5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Senza nome 2.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Senza nome 2"
-            }
-          },
-          {
-            "id": "eae5299e14f9b3bc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Senza nome 3.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Senza nome 3"
-            }
-          },
-          {
-            "id": "99ece798b5bb8e27",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Senza nome 4.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Senza nome 4"
+              "title": "Nuova scheda"
             }
           }
-        ],
-        "currentTab": 5
+        ]
       }
     ],
     "direction": "vertical"
@@ -263,13 +188,13 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "8eb07cd78a394b65",
+  "active": "559d93fdd5c3ac7c",
   "lastOpenFiles": [
-    "Senza nome 3.md",
-    "Senza nome 4.md",
-    "Senza nome 2.md",
-    "Senza nome 1.md",
-    "Senza nome.md",
+    "Appunti Advanced Computing Technologies/Lezione 5 (ILP).md",
+    "Appunti Advanced Computing Technologies/Lezione 3 (Static Branch Prediction).md",
+    "Appunti Advanced Computing Technologies/Lezione 2 (Pipelining).md",
+    "Appunti Advanced Computing Technologies/Lezione 1 (Performance Evaluation).md",
+    "Appunti Advanced Computing Technologies/Lezione 4 (Dynamic Branch Prediction).md",
     "Appunti Advanced Database Systems/Lezione X Transaction Part II.md",
     "Pasted image 20260326123351.png",
     "Pasted image 20260326123203.png",
