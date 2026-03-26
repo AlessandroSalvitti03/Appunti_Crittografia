@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "b6b2574b52fc78cb",
+        "id": "35664f587bb29b7d",
         "type": "tabs",
         "children": [
           {
-            "id": "559d93fdd5c3ac7c",
+            "id": "c08dd96f409e119b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -192,9 +192,10 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "559d93fdd5c3ac7c",
+  "active": "c08dd96f409e119b",
   "lastOpenFiles": [
     "Appunti Advanced Database Systems/Note sull'esame.md",
+    "conflict-files-obsidian-git.md",
     "Appunti Crittografia/Lezione 9.md",
     "Appunti Advanced Computing Technologies/Lezione 5 (ILP).md",
     "Appunti Advanced Computing Technologies/Lezione 4 (Dynamic Branch Prediction).md",
