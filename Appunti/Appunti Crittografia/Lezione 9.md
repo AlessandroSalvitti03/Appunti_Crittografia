@@ -505,4 +505,3 @@ Una volta risolto quello, applicherà il Teorema Cinese del Resto a questi tre r
 _______________________________________________________________________
 
 ![[Pasted image 20260326101415.png]]![[Pasted image 20260326101438.png]]
-

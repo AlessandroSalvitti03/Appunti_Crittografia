@@ -11,14 +11,12 @@
             "id": "bf0f97d79a74afd0",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Appunti Crittografia/Lezione 9.md",
-                "mode": "source",
-                "source": false
+                "file": "Pasted image 20260326101438.png"
               },
-              "icon": "lucide-file",
-              "title": "Lezione 9"
+              "icon": "lucide-image",
+              "title": "Pasted image 20260326101438"
             }
           }
         ]
@@ -193,6 +191,7 @@
   },
   "active": "bf0f97d79a74afd0",
   "lastOpenFiles": [
+    "Appunti Crittografia/Lezione 9.md",
     "Pasted image 20260326101438.png",
     "Pasted image 20260326101415.png",
     "Pasted image 20260326100722.png",
@@ -200,7 +199,6 @@
     "Pasted image 20260326100654.png",
     "Pasted image 20260326100441.png",
     "Pasted image 20260326100424.png",
-    "Appunti Crittografia/Lezione 9.md",
     "Appunti Advanced Database Systems/Lezione 02.md",
     "Appunti Advanced Database Systems/Lezione 01.md",
     "Appunti Algorithms and Data Structures/Lista Pagine del Libro.md",
@@ -213,10 +211,8 @@
     "Appunti Crittografia/IMG",
     "Appunti Crittografia/IMG/Pasted image 20260322173843.png",
     "Appunti Crittografia/IMG/Pasted image 20260322183654.png",
-    "Appunti Crittografia/IMG/Pasted image 20260322183627.png",
     "Appunti Crittografia/Lezione 5.md",
     "Pasted image 20260322172811.png.md",
-    "Appunti Crittografia/Lezione 9.md",
     "Benvenuto.md"
   ]
 }
