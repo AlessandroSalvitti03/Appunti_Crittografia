@@ -11,10 +11,12 @@
             "id": "559d93fdd5c3ac7c",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "Nuova scheda"
+              "type": "image",
+              "state": {
+                "file": "Pasted image 20260326123203.png"
+              },
+              "icon": "lucide-image",
+              "title": "Pasted image 20260326123203"
             }
           }
         ]
@@ -190,13 +192,13 @@
   },
   "active": "559d93fdd5c3ac7c",
   "lastOpenFiles": [
+    "Pasted image 20260326123351.png",
     "Appunti Advanced Computing Technologies/Lezione 5 (ILP).md",
     "Appunti Advanced Computing Technologies/Lezione 3 (Static Branch Prediction).md",
     "Appunti Advanced Computing Technologies/Lezione 2 (Pipelining).md",
     "Appunti Advanced Computing Technologies/Lezione 1 (Performance Evaluation).md",
     "Appunti Advanced Computing Technologies/Lezione 4 (Dynamic Branch Prediction).md",
     "Appunti Advanced Database Systems/Lezione X Transaction Part II.md",
-    "Pasted image 20260326123351.png",
     "Pasted image 20260326123203.png",
     "Drawing 2026-03-26 12.24.33.excalidraw.md",
     "Appunti Advanced Database Systems/IMG",
