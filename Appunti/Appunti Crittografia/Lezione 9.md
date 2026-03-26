@@ -390,8 +390,8 @@ Il professore scrive vittorioso in fondo: $\implies x = 244$.
 
 Hai visto come l'inverso modulare (l'86) sia stato il vero passepartout per pulire le equazioni a ogni passaggio? Ti piacerebbe provare a fare noi stessi la "prova del nove", provando a calcolare se $3^{244}$ in modulo 257 dà davvero 22 usando l'algoritmo di Esponenziazione Veloce (Square and Multiply) che abbiamo studiato all'inizio?
 
-![[Pasted image 20260326100707.png|293]]
-![[Pasted image 20260326100654.png|292]]
+![[Pasted image 20260326100707.png|231]]
+![[Pasted image 20260326100654.png|232]]
 ![[Pasted image 20260326100722.png|294]]## Il Setup: La cassaforte da scassinare
 
 - **Il Gruppo:** $\mathbb{Z}_p^*$ con $p = 2898919$ (un numero primo).
