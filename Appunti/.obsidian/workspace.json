@@ -11,14 +11,14 @@
             "id": "559d93fdd5c3ac7c",
             "type": "leaf",
             "state": {
-              "type": "split-diff-view",
+              "type": "markdown",
               "state": {
-                "aFile": "Appunti/.obsidian/workspace.json",
-                "bFile": "Appunti/.obsidian/workspace.json",
-                "aRef": ""
+                "file": "Appunti Advanced Database Systems/Note sull'esame.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "diff",
-              "title": "Diff: workspace.json  (Working Tree)"
+              "icon": "lucide-file",
+              "title": "Note sull'esame"
             }
           }
         ]
