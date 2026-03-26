@@ -113,3 +113,84 @@ Indipendentemente dalla linea temporale, il DBMS rispetta sempre queste due rego
 1. **WAL (Write-Ahead-Log)**: Il record di log ($U$) deve sempre precedere la scrittura nel DB ($w$) per permettere l'UNDO.
     
 2. **Commit-Precedence**: Tutti i record di log ($AS$) devono essere scritti prima di considerare valido il Commit, per permettere il REDO.
+
+
+
+![[Pasted image 20260326123203.png]]
+## La Sequenza del Log (Esempio delle Slide)
+
+Immaginiamo che il Log contenga le seguenti operazioni cronologiche prima del crash:
+
+1. $B(T1), B(T2)$ (Inizio transazioni)
+2. $U(T2, ...), I(T1, ...)$ (Operazioni sui dati)
+3. $B(T3), C(T1)$ (**Commit di T1**)
+4. $B(T4), U(T3, ...), U(T4, ...)$
+5. **$CK(T2, T3, T4)$ (Punto di Checkpoint)**: registra che $T2, T3$ e $T4$ sono attive.
+6. $C(T4)$ (**Commit di T4**)
+7. $B(T5), U(T3, ...), U(T5, ...), D(T3, ...)$
+8. $A(T3)$ (**Abort di T3**)
+9. $C(T5)$ (**Commit di T5**)
+10. $I(T2, ...)$ (Ultima operazione di T2 prima del Crash)
+11. **CRASH**.
+
+---
+
+## Fase 1: Ricerca dell'ultimo Checkpoint
+
+Il sistema ripercorre il Log a ritroso partendo dalla fine per trovare l'ultimo checkpoint registrato. In questo caso, trova $CK(T2, T3, T4)$. Grazie al checkpoint, sappiamo che al momento della sua registrazione le transazioni $T2, T3$ e $T4$ erano in corso.
+
+## Fase 2: Costruzione degli insiemi UNDO e REDO
+
+Il sistema analizza il log dal checkpoint in avanti per classificare le transazioni:
+
+- **Inizializzazione**: L'insieme **UNDO** contiene inizialmente le transazioni attive al checkpoint $\{T2, T3, T4\}$. Il **REDO** è vuoto.
+    
+- **Scansione in avanti**:
+    
+    - $C(T4)$: $T4$ ha completato il commit, quindi viene spostata da UNDO a **REDO**.
+        
+    - $B(T5)$: $T5$ inizia, viene aggiunta a **UNDO**.
+        
+    - $A(T3)$: $T3$ ha fallito (abort), quindi rimane in **UNDO** per essere annullata.
+        
+    - $C(T5)$: $T5$ ha completato il commit, quindi viene spostata da UNDO a **REDO**.
+        
+- **Risultato finale**:
+    
+    - **$UNDO = \{T2, T3\}$**: transazioni mai confermate o fallite.
+        
+    - **$REDO = \{T4, T5\}$**: transazioni confermate dopo il checkpoint.
+        
+    - Nota: T1 viene ignorata perché il commit è avvenuto prima del checkpoint, quindi i suoi dati sono già sicuri su disco.
+        
+
+---
+
+## Fase 3: Esecuzione dell'UNDO (All'indietro)
+
+Il sistema ripercorre il log all'indietro fino alla prima azione della transazione più vecchia in UNDO. Per ogni operazione di $T2$ e $T3$, scrive nel database il valore precedente (**Before State - BS**):
+
+1. **Undo $I(T2, O6)$**: cancella l'oggetto $O6$ inserito.
+    
+2. **Undo $D(T3, O5)$**: ripristina $O5$ con il valore $B7$.
+    
+3. **Undo $U(T3, O3)$**: ripristina $O3$ con il valore $B5$.
+    
+4. **Undo $U(T3, O2)$**: ripristina $O2$ con il valore $B3$.
+    
+5. **Undo $U(T2, O1)$**: ripristina $O1$ con il valore $B1$.
+    
+
+## Fase 4: Esecuzione del REDO (In avanti)
+
+Infine, il sistema ripercorre il log in avanti e ripete tutte le azioni delle transazioni in REDO per assicurarsi che siano scritte permanentemente. Scrive nel database il valore finale (**After State - AS**):
+
+1. **Redo $U(T4, O3)$**: imposta $O3$ al valore $A4$.
+    
+2. **Redo $U(T5, O4)$**: imposta $O4$ al valore $A6$.
+    
+
+Al termine di queste fasi, il database è di nuovo in uno stato **coerente**.
+
+
+![[Pasted image 20260326123351.png]]
