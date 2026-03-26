@@ -4,4 +4,10 @@
 
 ## **Esercizio 3**
 
+<<<<<<< HEAD
 Ciao groot
+=======
+Mannaggia i Froci
+
+Salvitti merda
+>>>>>>> origin/main
