@@ -502,3 +502,7 @@ Adesso il problema gigante è diventato questo sistema di equazioni modulari:
 Per trovare il "?" del punto 3, essendo $11^5$ la potenza di un numero primo, il prof dovrà usare il **Pohlig-Hellman II (Inner step)** che avevamo visto per il trucco binario. Solo che, lavorando in base 11, invece dei bit userà cifre da 0 a 10!
 
 Una volta risolto quello, applicherà il Teorema Cinese del Resto a questi tre risultati e il lucchetto di $h = 2026326$ salterà definitivamente.
+_______________________________________________________________________
+
+![[Pasted image 20260326101415.png]]![[Pasted image 20260326101438.png]]
+
