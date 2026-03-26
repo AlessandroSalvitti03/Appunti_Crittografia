@@ -11,14 +11,14 @@
             "id": "559d93fdd5c3ac7c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "Appunti Crittografia/Lezione 9.md",
-                "mode": "source",
-                "source": false
+                "aFile": "Appunti/.obsidian/workspace.json",
+                "bFile": "Appunti/.obsidian/workspace.json",
+                "aRef": ""
               },
-              "icon": "lucide-file",
-              "title": "Lezione 9"
+              "icon": "diff",
+              "title": "Diff: workspace.json  (Working Tree)"
             }
           }
         ]
@@ -194,6 +194,8 @@
   },
   "active": "559d93fdd5c3ac7c",
   "lastOpenFiles": [
+    "Appunti Advanced Database Systems/Note sull'esame.md",
+    "Appunti Crittografia/Lezione 9.md",
     "Appunti Advanced Computing Technologies/Lezione 5 (ILP).md",
     "Appunti Advanced Computing Technologies/Lezione 4 (Dynamic Branch Prediction).md",
     "Appunti Advanced Computing Technologies/Lezione 3 (Static Branch Prediction).md",
@@ -207,9 +209,7 @@
     "Appunti Advanced Database Systems/IMG/Pasted image 20260326120939.png",
     "Appunti Advanced Database Systems/Lezione X Transaction Part I.md",
     "Appunti Advanced Database Systems/Lezione 02.md",
-    "Appunti Advanced Database Systems/Note sull'esame.md",
     "Appunti Crittografia/IMG/Pasted image 20260326101438.png",
-    "Appunti Crittografia/Lezione 9.md",
     "Appunti Crittografia/IMG/Pasted image 20260326101415.png",
     "Appunti Crittografia/IMG/Pasted image 20260326100722.png",
     "Appunti Crittografia/IMG/Pasted image 20260326100707.png",
