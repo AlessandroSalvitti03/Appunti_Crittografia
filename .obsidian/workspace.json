@@ -180,7 +180,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -195,9 +195,5 @@
     }
   },
   "active": "546024d15b867285",
-  "lastOpenFiles": [
-    "Appunti/Appunti Advanced Database Systems/Note sull'esame.md",
-    "Appunti/Appunti Crittografia/Lezione 6.md",
-    "Appunti/Appunti Crittografia/Lezione 5.md"
-  ]
+  "lastOpenFiles": []
 }
