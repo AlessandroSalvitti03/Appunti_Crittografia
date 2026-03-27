@@ -22,7 +22,11 @@
             }
           },
           {
+<<<<<<< HEAD
             "id": "31e3494e23f7fa33",
+=======
+            "id": "38e314878035e7ba",
+>>>>>>> c982ea7cf9160a7fc36602e1483db2683152ea4d
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -207,7 +211,11 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
+<<<<<<< HEAD
   "active": "31e3494e23f7fa33",
+=======
+  "active": "38e314878035e7ba",
+>>>>>>> c982ea7cf9160a7fc36602e1483db2683152ea4d
   "lastOpenFiles": [
     "Appunti Crittografia/Lezione 9.md",
     "Appunti Crittografia/Lezione 10.md",
