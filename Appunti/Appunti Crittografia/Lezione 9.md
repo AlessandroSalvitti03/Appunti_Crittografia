@@ -272,8 +272,7 @@ Il professore scrive $x=7$ in fondo e chiude la lezione. Per curiosità, se calc
 __________________________________________________________________________
 
 
-![[Pasted image 20260326100441.png|324]]
-![[Pasted image 20260326100424.png|325]]
+![[Pasted image 20260326100441.png|324]]![[Pasted image 20260326100424.png|325]]
 
 Il professore sta usando esattamente il "trucco binario" di prima, ma applicato a una nuova equazione. E la cosa più bella è che ci svela **un trucchetto pratico** (il numero 86) per velocizzare i calcoli quando si "sbuccia" l'equazione!
 
@@ -390,9 +389,8 @@ Il professore scrive vittorioso in fondo: $\implies x = 244$.
 
 Hai visto come l'inverso modulare (l'86) sia stato il vero passepartout per pulire le equazioni a ogni passaggio? Ti piacerebbe provare a fare noi stessi la "prova del nove", provando a calcolare se $3^{244}$ in modulo 257 dà davvero 22 usando l'algoritmo di Esponenziazione Veloce (Square and Multiply) che abbiamo studiato all'inizio?
 
-![[Pasted image 20260326100707.png|231]]
-![[Pasted image 20260326100654.png|232]]
-![[Pasted image 20260326100722.png|294]]## Il Setup: La cassaforte da scassinare
+![[Pasted image 20260326100707.png|219]]![[Pasted image 20260326100654.png|218]]![[Pasted image 20260326100722.png|219]]
+## Il Setup: La cassaforte da scassinare
 
 - **Il Gruppo:** $\mathbb{Z}_p^*$ con $p = 2898919$ (un numero primo).
     
@@ -504,4 +502,150 @@ Per trovare il "?" del punto 3, essendo $11^5$ la potenza di un numero primo, il
 Una volta risolto quello, applicherà il Teorema Cinese del Resto a questi tre risultati e il lucchetto di $h = 2026326$ salterà definitivamente.
 _______________________________________________________________________
 
-![[Pasted image 20260326101415.png]]![[Pasted image 20260326101438.png]]
+![[Pasted image 20260326101415.png|306]]![[Pasted image 20260326101438.png|311]]
+## La Lavagna Nera: Scassinare la cassaforte a base 11
+
+Il professore deve risolvere il sotto-problema $g_1^x = h_1 \pmod{p}$, dove la grandezza di questa "cassaforte" è $11^5$ (cioè 161051 combinazioni).
+
+Usa lo stesso identico algoritmo a "cascata" di prima (PH II), ma invece di scriverlo in binario (base 2), scrive l'esponente segreto $x$ in **base 11**:
+
+$$x = x_0 + 11x_1 + 11^2x_2 + 11^3x_3 + 11^4x_4$$
+
+Ogni "interruttore" ($x_0, \dots, x_4$) ora non vale solo 0 o 1, ma **può valere da 0 a 10**.
+
+Guarda come aggiorna il "pezzo noto" a ogni passaggio:
+
+1. **Trova $x_0$:** Eleva alla $11^4$. Sulla lavagna il calcolo dà **$x_0 = 4$**.
+    
+    _(Il pezzo noto è $4$)_.
+    
+2. **Trova $x_1$:** Sottrae il pezzo noto ($h_1 \cdot g_1^{-4}$) ed eleva alla $11^3$. Trova **$x_1 = 9$**.
+    
+    _(Aggiorna il pezzo noto: $4 + 11(9) = \mathbf{103}$)_.
+    
+3. **Trova $x_2$ (Colonna centrale):** Sottrae il pezzo noto ($h_1 \cdot g_1^{-103}$) ed eleva alla $11^2$. Trova **$x_2 = 2$**.
+    
+    _(Aggiorna il pezzo noto: $103 + 11^2(2) = 103 + 242 = \mathbf{345}$)_.
+    
+4. **Trova $x_3$:** Sottrae il pezzo noto ($h_1 \cdot g_1^{-345}$) ed eleva alla $11^1$. Trova **$x_3 = 0$**.
+    
+    _(Il pezzo noto resta $\mathbf{345}$)_.
+    
+5. **Trova $x_4$:** L'ultima equazione è $g_1^{11^4 x_4} = h_1 \cdot g_1^{-345}$. Risolve e trova **$x_4 = 8$**.
+    
+
+**Il risultato finale del pezzo 3 (Riquadro in alto a destra):**
+
+Mette tutto insieme per trovare l'esponente base 11:
+
+$x = 4 + 11(9) + 121(2) + 1331(0) + 14641(8) = \mathbf{117473}$.
+
+La terza e ultima coordinata segreta è stata trovata! $x \equiv 117473 \pmod{11^5}$.
+
+---
+
+## Lo Schermo Blu: Il Computer chiude il cerchio
+
+Sul terminale Magma vediamo il professore che fa verificare i calcoli della lavagna al computer e poi sferra il colpo di grazia.
+
+**1. Il controllo dell'ultimo pezzo ($x_4$):**
+
+Guarda il comando: `BFdlog(g1^(11^4), h1*g1^(-345), p);`
+
+Il prof sta chiedendo a Magma di risolvere per forza bruta (`BFdlog`) l'ultima equazione della lavagna (quella per trovare $x_4$, dove sottraeva 345).
+
+Il computer risponde: `8`. Perfetto, coincide con il calcolo umano!
+
+**2. La somma totale:**
+
+Il prof digita: `345 + 11^4 * 8;` e Magma risponde: `117473`.
+
+Poi fa la "prova del nove" per quest'ultima cassaforte: `g1^117473 eq h1;` (chiede: è vero che $g_1$ elevato a 117473 fa $h_1$?). Il computer risponde: `true`!
+
+**3. L'arma finale: IL TEOREMA CINESE DEL RESTO (CRT)**
+
+Questo è il momento più epico di tutto il corso di crittografia.
+
+Il professore ha raccolto le tre soluzioni dei tre universi separati:
+
+1. Universo Modulo 2: la soluzione era **0**.
+    
+2. Universo Modulo 9: la soluzione era **8**.
+    
+3. Universo Modulo $11^5$: la soluzione è **117473**.
+    
+
+Digita il comando magico su Magma per unire i pezzi usando il CRT:
+
+`CRT([0, 8, 117473], [2, 9, 11^5]);`
+
+_(Traduzione: "Trovami quel numero che diviso per 2 dà 0, diviso per 9 dà 8, e diviso per $11^5$ dà 117473")_.
+
+Il computer processa la formula istantaneamente e sputa fuori la password master:
+
+**`2533238`**
+
+**4. La vittoria schiacciante:**
+
+Per dimostrare che tutto questo viaggio pazzesco (diagrammi, sottogruppi, scomposizioni) ha funzionato perfettamente, il prof fa calcolare al computer il logaritmo originale enorme usando la forza bruta pura (`BFdlog(g, h, p);`).
+
+Il risultato è **`2533238`**.
+
+I due numeri sono identici. L'hacker (il professore) ha craccato il sistema di sicurezza aggirando l'ostacolo principale.
+
+Tutto questo ti dimostra perché la regola d'oro in crittografia (come in RSA o in Diffie-Hellman) è: **scegliere sempre un modulo che abbia fattori primi GIGANTESCHI**. Se i fattori primi sono piccoli (come $2, 3, 11$), algoritmi come quello di Pohlig-Hellman frantumano la password in frazioni di secondo.
+
+
+
+
+
+## 1. Il Gioco Crittografico (Challenger vs Adversary)
+
+Nelle prime foto (e sulla lavagna di sinistra) il prof disegna l'arena del gioco:
+
+- **Il Setup:** Il gruppo $G_n$, la sua grandezza $n$ (che scrive come $n=2^\beta$, dove $\beta$ è il numero di bit, ovvero la lunghezza della password) e il generatore $\langle g \rangle$ sono tutte informazioni **pubbliche**.
+    
+- **Il Challenger (L'arbitro):** Prende un elemento a caso $h$ dal gruppo ($h \in_R G_n$) e lo "lancia" (freccia verso destra) verso l'Avversario.
+    
+- **L'Avversario (L'hacker):** Riceve $h$ e si spreme le meningi (il grande punto interrogativo "?"). Il suo compito è trovare quell'esponente $x$ tale che $g^x = h$. Quando pensa di averlo trovato, lo "lancia" indietro (freccia verso sinistra).
+    
+- **Condizione di vittoria:** L'Avversario vince il gioco se e solo se $g^x = h$.
+    
+
+## 2. La Definizione Ufficiale di "Hardness" (Difficoltà)
+
+Sulla lavagna di destra c'è la frase d'oro della crittografia moderna:
+
+**DLog is hard $\iff$ for ANY polynomial-time Adversary, P(Adv wins the game) is negligible.**
+
+Cosa significa in italiano? Il problema del logaritmo discreto è ufficialmente "sicuro e difficile" se, per **QUALSIASI** hacker che usi un computer normale (ovvero che faccia calcoli in un tempo ragionevole, "polynomial-time"), la probabilità ($P$) che riesca a vincere questo gioco è **trascurabile** (negligible) al crescere dei bit $\beta$.
+
+Non basta che l'hacker non ci riesca oggi. Devi dimostrare matematicamente che _nessun_ algoritmo veloce potrà mai avere probabilità concrete di farcela.
+
+## 3. I due estremi: Perché l'Hacker "stupido" perde sempre?
+
+Nelle ultime lavagne, il prof ti fa due esempi di algoritmi banali per farti vedere che nessuno dei due riesce a rompere la definizione di sicurezza:
+
+**A) Forza Bruta (BF - Brute Force)**
+
+- **Come funziona:** L'hacker fa un ciclo `for x` e prova letteralmente tutti gli esponenti possibili finché non trova quello che dà $h$.
+    
+- **Vince?** Sì! La sua probabilità di successo è $1$ (cioè il 100%).
+    
+- **Perché non rompe la sicurezza:** Perché per arrivare al 100% ci mette un **tempo esponenziale**! Se la password ha 256 bit, deve fare $2^{256}$ tentativi. Il sole si spegnerà prima che finisca. Ha violato la regola del "tempo polinomiale" (veloce), quindi è squalificato.
+    
+
+**B) Tirare a Indovinare (Guessing)**
+
+- **Come funziona:** L'hacker si arrende subito. Sceglie un esponente $x$ totalmente a caso ($x = Random(p-1)$) e lo consegna.
+    
+- **È veloce?** Sì, è istantaneo (supera il test del tempo polinomiale).
+    
+- **Perché non rompe la sicurezza:** Perché la sua probabilità di vittoria è $\frac{1}{2^\beta}$ (una su miliardi di miliardi). Questa probabilità è ridicolmente bassa.
+    
+
+## 4. Il ritorno della Funzione Trascurabile ($\epsilon$)
+
+Nell'ultimo pannello a destra, il prof riscrive per l'ennesima volta la formula della funzione trascurabile (quella col limite $\frac{1}{n^c}$).
+
+Serve a ribadire il concetto: la probabilità dell'algoritmo di "tirare a indovinare" ($\frac{1}{2^\beta}$) sprofonda verso lo zero molto, ma molto più velocemente di qualsiasi frazione normale ($\frac{1}{n^c}$). Ecco perché è matematicamente "trascurabile" e il sistema è salvo.
