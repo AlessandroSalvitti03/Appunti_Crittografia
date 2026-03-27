@@ -4,3 +4,19 @@
 
 ## **Esercizio 3**
 
+<<<<<<< HEAD
+Adesso faccio una prova
+Porcaccio diokkkkwcdw saz
+jjjwww
+Ciao sono dwedwdewfewfce kkjbkbwdlljlkjlkevfvwsr
+l,mklmmmmeqdcxAlll-kl
+ddwcwm,xasdfpjoiadiwesfffafsfwfweFfrafwfklnlnl
+jjjjjjjknlknlk
+dedwwdew
+
+
+dqddeq
+AIUTAMIIIIIIIIIIscs c d
+vedieafnaso
+=======
+>>>>>>> origin/main
