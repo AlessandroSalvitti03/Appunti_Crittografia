@@ -4,6 +4,7 @@
 
 ## **Esercizio 3**
 
+<<<<<<< HEAD
 Adesso faccio una prova
 Porcaccio diokkkkwcdw saz
 jjjwww
@@ -17,3 +18,5 @@ dedwwdew
 dqddeq
 AIUTAMIIIIIIIIIIscs c d
 vedieafnaso
+=======
+>>>>>>> origin/main
