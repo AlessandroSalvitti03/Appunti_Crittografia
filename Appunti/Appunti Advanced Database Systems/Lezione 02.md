@@ -1,79 +1,105 @@
-Questa seconda lezione approfondisce la **tecnologia alla base dei server database**, spiegando come il DBMS gestisce fisicamente i dati tra memoria principale e secondaria e come organizza i record all'interno dei blocchi.
+## 1. Fasi della Progettazione di un Database
+
+La progettazione di un database segue un flusso rigoroso per passare dai requisiti al sistema finale.
+
+- La progettazione passa attraverso tre stadi sequenziali: la progettazione concettuale (che produce lo Schema E-R), la progettazione logica (Schema Logico) e la progettazione fisica (Schema Fisico).
+- Per poter tradurre lo schema E-R iniziale nello schema logico a tabelle, è obbligatorio passare attraverso una fase intermedia chiamata "ristrutturazione dello schema E-R".
+- Le attività di ristrutturazione comprendono: l'analisi delle ridondanze, l'eliminazione delle generalizzazioni (come le gerarchie), il partizionamento o la fusione di entità e relazioni, e la selezione finale degli identificatori primari.
 
 ---
 
-## 1. Architettura e Gestione delle Query
+## 2. Esercizio 1: Schema E-R per una Clinica Veterinaria
 
-Il DBMS non è una "scatola nera": per utilizzarlo al meglio, occorre capire come elabora le richieste. L'architettura di gestione segue una gerarchia precisa che va dal linguaggio ad alto livello (SQL) alla memorizzazione fisica:
+**Obiettivo del sistema:** Registrare i dati dei pazienti animali, dei proprietari e tenere traccia dello storico delle visite e delle procedure effettuate.
 
-1. **Queries Management:** Traduce l'SQL in operazioni di scansione, accesso diretto o ordinamento.
+**Entità e Attributi:**
 
-2. **Access Methods Management:** Gestisce le modalità di accesso ai dati.
+- **Owner (Proprietario):** Identificato univocamente dal Codice Fiscale, include Nome e Cognome.
+    
+- **Animal (Animale):** Identificato da un ID univoco, con Nome, Data di nascita e Genere.
+    
+- **Type (Tipo) e Breed (Razza):** Permettono di classificare l'animale specificandone la specie (es. cane, gatto) e la razza esatta.
+    
+- **Visit (Visita) e Procedure (Procedura):** La visita ha un ID, una Data e uno spazio per le Note; la procedura è identificata dal suo Nome (es. chirurgia, vaccinazione).
+    
 
-3. **Buffer Management:** Si occupa del trasferimento dei dati tra disco e RAM.
+**Relazioni Principali (Cardinalità):**
 
-4. **Secondary Memory Management:** Gestisce la scrittura fisica sui dispositivi di memorizzazione.
-
-
----
-
-## 2. Memoria Principale vs. Memoria Secondaria
-
-I database sono **Grandi** e **Persistenti**, il che rende necessaria la memoria secondaria (disco).
-
-- **Limiti del Disco:** L'accesso alla memoria secondaria è circa **10.000 volte più lento** rispetto alla RAM. Un accesso medio richiede almeno 10 ms (posizionamento testina, latenza, trasferimento).
-
-- **Unità di misura:** La memoria secondaria è strutturata in **blocchi** (o pagine) di lunghezza fissa (solitamente KB).
-
-
----
-
-## 3. Gestione del Buffer
-
-Il **Buffer** è un'area della memoria centrale pre-allocata dal DBMS e condivisa tra le transazioni. Il suo scopo principale è **ridurre il numero di accessi al disco**.
-
-Primitive del Buffer Manager
-
-- **fix:** Richiede una pagina; se non è nel buffer, la legge dal disco.
-
-- **unfix:** Indica che la transazione ha finito di usare la pagina.
-
-- **setDirty:** Segnala che la pagina è stata modificata e dovrà essere scritta su disco.
-
-- **force:** Forza la scrittura immediata e sincrona della pagina su disco (usato per l'affidabilità).
-
-
-## Politiche di rimpiazzamento (Steal vs. No-Steal)
-
-Quando il buffer è pieno e serve una nuova pagina:
-
-- **Steal:** Il manager sceglie una "vittima" (una pagina con contatore a zero), ne scrive il contenuto su disco se necessario e libera lo spazio.
-
-- **No-Steal:** L'operazione viene messa in attesa finché non si libera spazio naturalmente.
-
+- **Owner - Animal (1:N):** Un singolo proprietario può possedere uno o più animali.
+    
+- **Breed - Animal (1:N):** Molteplici animali possono appartenere alla medesima razza.
+    
+- **Type - Breed (1:N):** Un tipo generico include diverse razze, ma ogni singola razza appartiene esclusivamente a un tipo.
+    
+- **Animal - Visit (1:N):** Lo stesso animale può essere visitato più volte nel tempo.
+    
+- **Visit - Procedure (1:N):** Durante un'unica visita clinica è possibile eseguire molteplici procedure mediche.
+    
 
 ---
 
-## 4. Organizzazione Fisica dei Record
+## 3. Esercizio 2: Schema E-R per un Reparto Ospedaliero
 
-Il **Block Factor** indica quanti record possono stare in un singolo blocco. Se rimane spazio residuo, questo può essere usato (record _spanned_) o lasciato vuoto (_unspanned_).
+**Contesto:** Gestione dei dati per pazienti, ricoveri ospedalieri, medici e visite.
 
-## Strutture di Accesso Primarie
+- I pazienti sono identificati dal codice fiscale e memorizzano nome, cognome e data di nascita.
+    
+- I medici presentano una matricola (ID), cognome, nome e data di laurea.
+    
+- Le visite, identificate univocamente dalla combinazione di paziente, data e ora, collegano i medici visitanti, le malattie diagnosticate (con ID e nome) e i farmaci prescritti.
+    
+- Per i farmaci prescritti, è necessario registrare anche il dosaggio sull'associazione, oltre agli attributi dell'entità farmaco che sono ID, nome e costo.
+    
 
-Le tabelle possono essere organizzate fisicamente in diversi modi:
+**Generalizzazione dell'entità Ricovero (Hospitalization):** Ogni ricovero è identificato dalla data di inizio per lo specifico paziente ed è supervisionato da un medico curante. Viene suddiviso in due sotto-entità:
 
-|**Struttura**|**Descrizione**|**Pro / Contro**|
-|---|---|---|
-|**Seriale (Heap)**|Record inseriti senza un ordine logico.|Inserimento rapido, ma la ricerca richiede una scansione sequenziale completa.|
-|**Sequenziale Ordinata**|Record ordinati fisicamente in base a un campo.|Permette ricerche binarie, ma gli aggiornamenti sono molto costosi.|
-|**Hash File**|Usa una funzione hash per calcolare l'indirizzo del blocco in base a una chiave.|**Ottima per ricerche puntuali** (uguaglianza), ma inefficiente per ricerche su intervalli.|
+- **Completed (Completati):** Memorizzano la data di dimissione/fine e la motivazione (es. dimissione, trasferimento).
+    
+- **Ongoing (In corso):** Memorizzano i contatti (una stringa) di un parente di riferimento in caso di necessità.
+    
 
 ---
 
-## 5. Il Problema delle Collisioni nell'Hash
+## 4. Passaggio al Modello Logico (Caso Clinica Veterinaria)
 
-Poiché lo spazio delle chiavi è molto più grande di quello degli indirizzi, due chiavi diverse possono finire nello stesso blocco (**collisione**).
+Dopo aver completato le fasi di ristrutturazione dello schema concettuale, si applicano le regole standard di traduzione per ottenere lo schema a tabelle.
 
-- Nei **file hash**, la probabilità di collisione è mitigata dal fatto che ogni "indirizzo" corrisponde a un intero blocco (che può contenere più record), riducendo drasticamente gli accessi extra.
+**Regole di traduzione standard:**
 
-- Se un blocco è pieno, si usano solitamente **blocchi di overflow** concatenati.
+- Per ogni entità si definisce una relazione (tabella) con lo stesso nome, mantenendo come colonne gli attributi originali e usando l'identificatore come chiave primaria.
+    
+- Per ogni associazione si definisce una tabella che raggruppa gli attributi dell'associazione stessa più gli identificatori delle entità coinvolte, i quali insieme formano la chiave della nuova tabella.
+    
+
+**Risultato - Schema Logico della Clinica Veterinaria:**
+
+- `OWNER (CF, LastName, FirstName)`
+    
+- `TYPE (Type)`
+    
+- `BREED (Breed, Type)`
+    
+- `ANIMAL (AnimalID, Name, BirthDate, Gender, Breed, Owner)`
+    
+- `VISIT (VisitID, VisitDate, Notes, Animal)`
+    
+- `PROCEDURE (Procedure Type)`
+    
+- `VISIT_PROCEDURES (VisitID, Procedure)`
+    
+
+---
+
+## 5. Esercizio Assegnato (Homework): Vendita all'ingrosso di piante
+
+L'obiettivo è creare lo schema E-R per un database che deve gestire la vendita all'ingrosso, modellando le seguenti regole aziendali:
+
+- **Piante:** Sono suddivise in specie, di cui si conosce il nome latino, il nome comune, un codice univoco, l'informazione se sono da interno o giardino, e se sono esotiche o meno. Le piante possono essere sempreverdi o da fiore; per quest'ultime vanno registrati tutti i colori dei fiori disponibili per la specie.
+    
+- **Clienti:** Identificati da un codice cliente, si dividono in due categorie (Generalizzazione): Privati (di cui si memorizza codice fiscale, nome, indirizzo) e Rivenditori (di cui si memorizza la Partita IVA, il nome e l'indirizzo del negozio).
+    
+- **Fornitori:** Sono identificati da un codice e presentano nome, codice fiscale (o P.IVA) e indirizzo.
+    
+- **Regola di fornitura:** Un fornitore può fornire svariate specie di piante, ma tutte le piante appartenenti alla medesima specie devono essere acquistate sempre da un unico fornitore.
+    
+- **Acquisti e Prezzi:** Il sistema deve tracciare tutti gli acquisti effettuati dai clienti, registrando per ogni acquisto la data, la quantità e la specie richiesta. Inoltre, deve essere mantenuto uno storico (listino prezzi) per tracciare la variazione di prezzo di ogni specie di pianta nel corso del tempo.

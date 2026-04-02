@@ -4,24 +4,53 @@
     "type": "split",
     "children": [
       {
-        "id": "83737a82f601c79a",
+        "id": "bff3097ef67076da",
         "type": "tabs",
         "children": [
           {
-            "id": "1ef4299bfe2eb354",
+            "id": "00791f52e297150f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Appunti Advanced Computing Technologies/Pianificazione Appunti.md",
+                "file": "Appunti Advanced Database Systems/Lezione 02.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Pianificazione Appunti"
+              "title": "Lezione 02"
+            }
+          },
+          {
+            "id": "040575c1f4c12874",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Appunti Advanced Database Systems/Lezione 04.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Lezione 04"
+            }
+          },
+          {
+            "id": "7691a991a19ed9f2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Appunti Advanced Database Systems/Lezione 06.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Lezione 06"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -154,22 +183,23 @@
             "state": {
               "type": "outline",
               "state": {
-                "followCursor": false,
+                "file": "Appunti Algorithms and Data Structures/Pianificazione Appunti.md",
+                "followCursor": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Struttura"
+              "title": "Struttura di Pianificazione Appunti"
             }
           },
           {
-            "id": "40b664e99050e53f",
+            "id": "5166d4f6db391333",
             "type": "leaf",
             "state": {
-              "type": "git-view",
+              "type": "advanced-tables-toolbar",
               "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "icon": "spreadsheet",
+              "title": "Advanced Tables"
             }
           }
         ],
@@ -189,14 +219,22 @@
       "command-palette:Apri riquadro comandi": false,
       "bases:Crea nuova Base": false,
       "obsidian-git:Open Git source control": false,
-      "obsidian-excalidraw-plugin:New drawing": false
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "1ef4299bfe2eb354",
+  "active": "7691a991a19ed9f2",
   "lastOpenFiles": [
-    "Appunti Advanced Database Systems/Pianificazione Appunti.md",
-    "Appunti Crittografia/Pianificazione Appunti.md",
+    "Appunti Advanced Database Systems/Lezione 05.md",
+    "Appunti Advanced Database Systems/Lezione 06.md",
+    "Appunti Advanced Database Systems/Lezione 04.md",
+    "Appunti Advanced Database Systems/Lezione 03.md",
+    "Appunti Advanced Database Systems/Lezione 02.md",
+    "Appunti Advanced Database Systems/Lezione 01.md",
     "Appunti Advanced Computing Technologies/Pianificazione Appunti.md",
+    "Appunti Algorithms and Data Structures/Pianificazione Appunti.md",
+    "Appunti Advanced Database Systems/Pianificazione Appunti.md",
+    "Pianificazione Appunti.md",
     "Appunti Advanced Database Systems/Note sull'esame.md",
     "Appunti Advanced Computing Technologies/Lezione 1 (Performance Evaluation).md",
     "Appunti Advanced Computing Technologies/Lezione 5 (ILP).md",
@@ -209,19 +247,15 @@
     "conflict-files-obsidian-git.md",
     "Appunti Advanced Database Systems/IMG/Pasted image 20260326123351.png",
     "Appunti Advanced Database Systems/IMG/Pasted image 20260326123203.png",
-    "Appunti Advanced Database Systems/Lezione X Transaction Part II.md",
     "Drawing 2026-03-26 12.24.33.excalidraw.md",
     "Appunti Advanced Database Systems/IMG",
     "Appunti Advanced Database Systems/IMG/Pasted image 20260326120939.png",
-    "Appunti Advanced Database Systems/Lezione X Transaction Part I.md",
-    "Appunti Advanced Database Systems/Lezione 02.md",
     "Appunti Crittografia/IMG/Pasted image 20260326101438.png",
     "Appunti Crittografia/IMG/Pasted image 20260326101415.png",
     "Appunti Crittografia/IMG/Pasted image 20260326100722.png",
     "Appunti Crittografia/IMG/Pasted image 20260326100707.png",
     "Appunti Crittografia/IMG/Pasted image 20260326100654.png",
     "Appunti Crittografia/IMG/Pasted image 20260326100441.png",
-    "Appunti Advanced Database Systems/Lezione 01.md",
     "Appunti Algorithms and Data Structures/Lista Pagine del Libro.md",
     "Appunti Advanced Computing Technologies",
     "Appunti Algorithms and Data Structures",
@@ -230,7 +264,6 @@
     "Appunti Crittografia/Lezione 6.md",
     "Appunti Crittografia/IMG",
     "Appunti Crittografia/Lezione 5.md",
-    "Pasted image 20260322172811.png.md",
-    "Benvenuto.md"
+    "Pasted image 20260322172811.png.md"
   ]
 }
