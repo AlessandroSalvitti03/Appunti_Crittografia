@@ -1,6 +1,7 @@
 [
-  "obsidian-git",
   "editing-toolbar",
   "obsidian-excalidraw-plugin",
-  "obsidian-image-toolkit"
+  "obsidian-image-toolkit",
+  "table-editor-obsidian",
+  "obsidian-git"
 ]
