@@ -1,5 +1,8 @@
 Caricare le slide della lezione su NotebookLM e su Gemini e chiedere di generare gli appunti relativi alle suddette slide, poi far mischiare le cose a Gemini.
 In caso di esercizi all'interno del PDF far generare altri esempi se necessario.
+
+In aggiunta fare il riassunto dei capitoli del libro di Database
+Capitoli da studiare: ???
 ## Note sull'esame
 
 #### **Esercizio 1**
