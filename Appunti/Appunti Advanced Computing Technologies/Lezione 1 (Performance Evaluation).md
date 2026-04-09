@@ -98,7 +98,7 @@ Per valutare il bilanciamento tra potenza di calcolo pura e accesso in memoria, 
 
 2. L'**intensità aritmetica** sull'asse X (numero di operazioni Floating-Point divise per i Byte di memoria trasferiti). Questo grafico crea una "linea del tetto" orizzontale per il limite di calcolo massimo (Peak FP performance) e una diagonale basata sulla larghezza di banda massima della memoria. Questo permette a programmatori e progettisti di capire immediatamente se l'algoritmo scritto è limitato dal calcolo della CPU (Computation limited) o vincolato ai trasferimenti di memoria (Memory Bandwidth limited), fornendo un target per ulteriori ottimizzazioni.
 
-3. Affidabilità (Dependability e Availability)
+### 8.Affidabilità (Dependability e Availability)
 
 Nella progettazione di sistemi estesi (come server e storage), le metriche prestazionali si legano ai fattori di affidabilità ("Dependability"). Si quantifica attraverso:
 
