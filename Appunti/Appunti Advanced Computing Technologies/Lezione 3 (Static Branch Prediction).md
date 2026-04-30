@@ -1,5 +1,4 @@
 
-
 ### 1. Il Problema dei Salti: I Control Hazards
 
 Le istruzioni di salto condizionato (come `beq` o `bne` nel MIPS) verificano una condizione e, se questa è soddisfatta, modificano il Program Counter (PC) con l'indirizzo di destinazione del salto, detto **Branch Target Address (BTA)**.

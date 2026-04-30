@@ -3,7 +3,11 @@
 
 Il miglioramento delle prestazioni dei calcolatori è stato storicamente guidato dai progressi nella tecnologia dei semiconduttori (riduzione delle dimensioni dei transistor e aumento della frequenza di clock) e dai miglioramenti nell'architettura, come l'avvento dei compilatori per linguaggi ad alto livello (HLL), UNIX e le architetture RISC. Questo ha permesso la creazione di dispositivi leggeri e ha aumentato la produttività nello sviluppo del software.
 
-Tuttavia, l'aumento continuo della frequenza di clock si è scontrato con il cosiddetto **Power Wall** (muro dell'energia). La potenza dinamica dissipata da un circuito CMOS è descritta dalla formula: **Potenza = Capacità di carico × Tensione² × Frequenza di commutazione**. Mentre per anni i progettisti hanno ridotto la tensione per contenere i consumi permettendo alla frequenza di scalare, questo processo ha raggiunto un limite pratico per il raffreddamento dei microprocessori. La conseguenza diretta è stata un epocale cambio di paradigma (il "parallel step"): l'industria è passata dai sistemi uniprocessore ai **sistemi multiprocessore (multicore)**, puntando sul miglioramento del throughput parallelo piuttosto che sulla velocità del singolo core.
+Tuttavia, l'aumento continuo della frequenza di clock si è scontrato con il cosiddetto **Power Wall** (muro dell'energia). La potenza dinamica dissipata da un circuito CMOS è descritta dalla formula: 
+
+	**Potenza = Capacità di carico × Tensione² × Frequenza di commutazione**. 
+
+Mentre per anni i progettisti hanno ridotto la tensione per contenere i consumi permettendo alla frequenza di scalare, questo processo ha raggiunto un limite pratico per il raffreddamento dei microprocessori. La conseguenza diretta è stata un epocale cambio di paradigma (il "parallel step"): l'industria è passata dai sistemi uniprocessore ai **sistemi multiprocessore (multicore)**, puntando sul miglioramento del throughput parallelo piuttosto che sulla velocità del singolo core.
 
 Gestione del calore:
 - **TDP (Thermal Design Power)**: Rappresenta il consumo di potenza sostenuto ed è il target per la progettazione dei sistemi di raffreddamento.
@@ -30,7 +34,13 @@ Dire che "un calcolatore è più veloce di un altro" dipende da quale metrica è
 
 ### 3. L'Equazione Classica delle Prestazioni della CPU
 
-Il tempo di esecuzione della CPU per un programma (escludendo i tempi di attesa per I/O) è dato dal prodotto di tre fattori fondamentali: **Tempo CPU = Instruction Count (IC) × CPI × Tempo di Clock (**TCLK​**)**. Oppure dividendo per la frequenza di clock: **Tempo CPU = (IC × CPI) / Frequenza di Clock**.
+Il tempo di esecuzione della CPU per un programma (escludendo i tempi di attesa per I/O) è dato dal prodotto di tre fattori fondamentali: 
+
+	Tempo CPU = Instruction Count (IC) × CPI × Tempo di Clock (**TCLK​**)**. 
+
+Oppure dividendo per la frequenza di clock: 
+
+	Tempo CPU = (IC × CPI) / Frequenza di Clock.
 
 Questi tre termini sono influenzati da diverse scelte hardware e software:
 
@@ -52,10 +62,11 @@ Questi tre termini sono influenzati da diverse scelte hardware e software:
 
 Il buon senso ingegneristico suggerisce di **rendere veloce il caso più frequente** ("Make the common case fast"). Ottimizzare l'evento comune garantisce un miglioramento prestazionale molto più alto rispetto all'ottimizzazione del caso raro, ed è spesso più semplice da realizzare.
 
-La **Legge di Amdahl** quantifica questo principio: il guadagno prestazionale ottenuto ottimizzando una parte del sistema è limitato dalla frazione di tempo in cui tale parte viene effettivamente utilizzata. La formula è: Speedupoverall​=(1−Frazionemigliorata​)+(Speedupmigliorato​Frazionemigliorata​​)1​.
+La **Legge di Amdahl** quantifica questo principio: il guadagno prestazionale ottenuto ottimizzando una parte del sistema è limitato dalla frazione di tempo in cui tale parte viene effettivamente utilizzata. La formula è: 
+
+	Speedupoverall​=(1−Frazionemigliorata​)+(Speedupmigliorato​Frazionemigliorata​​)1​.
 
 **Esempio di approfondimento:** Immaginiamo di voler acquistare una nuova CPU 10 volte più veloce per un server. Tuttavia, il server è pesantemente limitato dall'I/O (I/O bound) e spende il 60% del suo tempo ad aspettare i dischi, utilizzando la CPU solo per il 40% del tempo. Speedupoverall​=(1−0.4)+(100.4​)1​=0.6+0.041​=0.641​=1.56. La natura umana è attratta dal "10X più veloce", ma mantenere la giusta prospettiva dimostra che il miglioramento reale di tutto il sistema è di solo 1.56 volte.
-
 
 
 ### 5. Altre Metriche: MIPS e MFLOPS (e i loro trabocchetti)

@@ -1,0 +1,18 @@
+**Il Problema del Dizionario e l'Accesso Diretto** Le tabelle hash sono strutture dati pensate per implementare in modo estremamente efficiente i "dizionari", permettendo di eseguire operazioni di ricerca, inserimento e cancellazione in **tempo costante nel caso medio, pari a** O(1). Un approccio di base per i dizionari sono le **Tabelle ad Accesso Diretto**, in cui l'universo di tutte le possibili chiavi (U) viene mappato uno a uno con gli indici di un array. Sebbene offrano tempi O(1) anche nel caso peggiore, portano a uno **spreco di memoria impraticabile** (O(∣U∣)) qualora l'insieme delle chiavi effettivamente usate (K) sia solo una minuscola frazione dell'universo U.
+
+**Le Tabelle Hash e le Collisioni** Per limitare l'uso della memoria a O(m) (dove m è la dimensione della tabella e m≥∣K∣), si usano le Tabelle Hash. Qui, un'apposita **funzione hash (**h**)** trasforma la chiave nel corretto indice della tabella (h:U→{0,…,m−1}). Tuttavia, mappando un universo grande in una tabella più piccola, si verificano inevitabilmente le **collisioni**: due chiavi diverse che generano lo stesso indice hash (h(u)=h(v)). Salvo l'utilizzo di _funzioni hash perfette_ (che sono iniettive, ma impraticabili perché richiedono ∣K∣≥∣U∣), le collisioni vanno gestite e ridotte al minimo.
+
+**Requisiti di una Buona Funzione Hash** Per ridurre le collisioni, la funzione deve godere della proprietà di **Uniformità Semplice**: deve distribuire le chiavi in modo equo su tutte le posizioni della tabella (ognuna con probabilità 1/m), evitando schemi regolari nei dati in ingresso. Due metodi comuni per derivare funzioni hash sono:
+
+- **Divisione:** h(k)=kmodm. Si consiglia di scegliere come m un numero primo non vicino a una potenza di 2 per minimizzare le collisioni.
+- **Folding (Ripiegamento):** La chiave (es. un lungo numero) viene spezzata in più parti che poi vengono combinate tra loro tramite una funzione matematica.
+
+**Metodi di Risoluzione delle Collisioni** Quando due chiavi finiscono nello stesso indice, le tabelle hash usano principalmente due strategie:
+
+1. **Liste di Collisione (Concatenamento):** Gli elementi che collidono non sono salvati direttamente nella tabella, ma in liste collegate esterne a cui la tabella punta.
+    - Nel **caso peggiore** (tutte le chiavi generano lo stesso hash), tutte le operazioni impiegano tempo O(n), come se fosse una singola lista.
+    - Nel **caso medio**, le prestazioni dipendono dal _fattore di carico_ α=n/m (lunghezza media delle liste). Il tempo di ricerca medio è O(1+α). Se la tabella è ben dimensionata in base agli elementi inseriti (n=O(m)), il tempo medio resta O(1).
+2. **Indirizzamento Aperto (Open Addressing):** Tutti gli elementi risiedono dentro la tabella (senza usare liste o puntatori esterni). In caso di cella occupata, l'algoritmo calcola e scansiona altre celle seguendo una specifica sequenza finché non ne trova una libera.
+    - **Scansione Lineare:** Si esplorano banalmente le celle adiacenti successive (h(k)+1, h(k)+2, ecc.). Semplice, ma crea "effetti di agglomerazione" (primary clustering): lunghi gruppi di celle consecutive occupate che rallentano notevolmente le scansioni successive.
+    - **Doppio Hashing:** Usa due funzioni hash distinte per calcolare i salti. La seconda funzione hash determina il "passo" con cui esplorare la tabella, riducendo drasticamente il problema degli agglomerati.
+    - **Cancellazione:** Nell'indirizzamento aperto, per eliminare un elemento non basta svuotare la cella, altrimenti si spezzerebbero le catene di ricerca altrui. Si deve inserire un marcatore speciale (es. "canc") che indica la cella come "libera per l'inserimento ma oltrepassabile durante la ricerca".

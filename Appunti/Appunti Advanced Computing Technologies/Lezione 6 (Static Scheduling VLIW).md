@@ -7,7 +7,6 @@ L'obiettivo iniziale della pipeline è avvicinarsi a un CPI (Clock Cycles Per In
 - **Vantaggi:** L'hardware è molto più semplice rispetto ai processori superscalari. Non necessita di circuiti complessi per il riordinamento dinamico delle istruzioni, controlli RAW incrociati o hardware di schedulazione.
 - **Svantaggi:** Richiede un enorme numero di registri per mantenere attive tutte le unità funzionali, un'elevatissima larghezza di banda verso le memorie e la cache, e soffre dell'espansione della dimensione del codice (code size explosion). Inoltre, fatica moltissimo in presenza di salti imprevedibili e non può adattarsi dinamicamente ai ritardi della memoria (come i cache miss).
 
-
 - **ILP (Parallelismo a livello di istruzioni)**: È **trasparente all'utente** e mira a velocizzare l'esecuzione sovrapponendo singole operazioni (add, mul, load).
     
 - **Parallel Processing**: È **non trasparente**, richiede che l'utente (o il programmatore) divida il programma in chunk separati per diversi processori.
@@ -61,7 +60,7 @@ La tecnica del **Trace Scheduling** permette di parallelizzare istruzioni estese
 2. **Schedulazione:** La traccia intera viene schedulata globalmente ignorando le diramazioni, come se fosse un unico gigantesco blocco base in cui si ottimizza pesantemente il codice.
 3. **Compensation Code (Codice di compensazione):** Poiché la traccia salta su percorsi che potrebbero non essere sempre presi, il compilatore deve inserire del codice correttivo (Fixup code) nei punti di ingresso laterali e uscita laterale, per ripristinare la legalità del programma se la previsione risulta sbagliata. Il codice di compensazione, specialmente per gli ingressi laterali, è estremamente complesso da generare.
 
-4. Speculazione ed Esecuzione Predicata (IA-64)
+### 6. Speculazione ed Esecuzione Predicata (IA-64)
 
 Per superare la rigidità dei salti (Branch), i progettisti usano tecniche speculative (Hardware o Software) che tentano di ipotizzare il comportamento delle istruzioni per anticiparne l'esecuzione.
 
