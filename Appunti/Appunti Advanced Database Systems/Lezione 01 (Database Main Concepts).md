@@ -63,13 +63,10 @@
 - **Linguaggi per Database:** Esistono in varie forme per contribuire all'efficacia:
     
     1. Linguaggi testuali interattivi, come SQL.
-        
     2. Comandi interattivi incorporati (embedded) in un linguaggio host (Pascal, C, Cobol, Java, ecc.).
-        
     3. Comandi incorporati in linguaggi di sviluppo ad-hoc (per produrre form, menu, report).
-        
     4. Interfacce user-friendly non testuali (es. Microsoft Access).
-        
+
 - **Distinzione fondamentale dei linguaggi:**
     
     - **DDL (Data Definition Language):** Usato per definire gli schemi (logici, esterni e fisici) e le autorizzazioni di accesso.
@@ -78,20 +75,14 @@
 - **Persone coinvolte:**
     
     - Progettisti e implementatori del DBMS.
-        
     - Progettisti del database e amministratori di database (DBA).
-        
     - Progettisti e sviluppatori di applicazioni.
-        
     - **Utenti finali:** Usano transazioni predefinite (es. prenotazione voli o operazioni bancarie).
-        
     - **Utenti casuali:** Emettono query tramite linguaggi interattivi o interfacce.
-        
 
 ## 6. Vantaggi e Svantaggi dei DBMS
 
 - **Pro (Vantaggi):**
-    
     - I dati possono essere gestiti come una risorsa comune; il database è un modello del mondo reale.
     - Gestione centralizzata ed economia di scala.
     - Disponibilità di servizi integrati.
@@ -99,6 +90,5 @@
     - Indipendenza dei dati (un vantaggio nello sviluppo e nella manutenzione delle applicazioni).
         
 - **Contro (Svantaggi):**
-    
     - Costo del prodotto (e degli strumenti associati) e costo della migrazione.
     - Difficoltà nel separare funzionalità e servizi (con possibile mancanza di efficienza per specifiche necessità).

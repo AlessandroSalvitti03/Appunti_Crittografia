@@ -5,7 +5,7 @@ L'**Instruction-Level Parallelism (ILP)** (Parallelismo a livello di istruzioni)
 
 Fino ad ora abbiamo visto la pipeline di base, le cui prestazioni sono regolate dalla seguente equazione: 
 
-**CPI della Pipeline = CPI ideale + Stalli Strutturali + Stalli per Hazard sui Dati + Stalli per Hazard di Controllo**. 
+	CPI della Pipeline = CPI ideale + Stalli Strutturali + Stalli per Hazard sui Dati + Stalli per Hazard di Controllo. 
 
 È la misura della massima performance ottenibile dall'implementazione (che sarebbe 1.0 per una pipeline semplice a 5 stadi, ma inferiore a 1.0 per i processori Multiple Issue).
 
@@ -54,6 +54,7 @@ Esistono tre categorie principali di dipendenze:
 Per gestire la complessità delle emissioni multiple (Multiple Issue) e sfruttare l'ILP, esistono due approcci principali:
 
 - **Static Scheduling (o VLIW / Static Multiple Issue):** Si affida al **software** (il compilatore) per trovare il parallelismo.
+
 - **Dynamic Scheduling (o Superscalari):** Dipende dall'**hardware** per localizzare il parallelismo e riordinare l'esecuzione a runtime.
 
 #### A. Static Scheduling (VLIW)

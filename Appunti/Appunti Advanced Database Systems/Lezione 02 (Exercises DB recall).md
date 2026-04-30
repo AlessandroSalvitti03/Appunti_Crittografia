@@ -15,26 +15,17 @@ La progettazione di un database segue un flusso rigoroso per passare dai requisi
 **Entità e Attributi:**
 
 - **Owner (Proprietario):** Identificato univocamente dal Codice Fiscale, include Nome e Cognome.
-    
 - **Animal (Animale):** Identificato da un ID univoco, con Nome, Data di nascita e Genere.
-    
 - **Type (Tipo) e Breed (Razza):** Permettono di classificare l'animale specificandone la specie (es. cane, gatto) e la razza esatta.
-    
 - **Visit (Visita) e Procedure (Procedura):** La visita ha un ID, una Data e uno spazio per le Note; la procedura è identificata dal suo Nome (es. chirurgia, vaccinazione).
-    
 
 **Relazioni Principali (Cardinalità):**
 
 - **Owner - Animal (1:N):** Un singolo proprietario può possedere uno o più animali.
-    
 - **Breed - Animal (1:N):** Molteplici animali possono appartenere alla medesima razza.
-    
 - **Type - Breed (1:N):** Un tipo generico include diverse razze, ma ogni singola razza appartiene esclusivamente a un tipo.
-    
 - **Animal - Visit (1:N):** Lo stesso animale può essere visitato più volte nel tempo.
-    
 - **Visit - Procedure (1:N):** Durante un'unica visita clinica è possibile eseguire molteplici procedure mediche.
-    
 
 ---
 
@@ -43,20 +34,14 @@ La progettazione di un database segue un flusso rigoroso per passare dai requisi
 **Contesto:** Gestione dei dati per pazienti, ricoveri ospedalieri, medici e visite.
 
 - I pazienti sono identificati dal codice fiscale e memorizzano nome, cognome e data di nascita.
-    
 - I medici presentano una matricola (ID), cognome, nome e data di laurea.
-    
 - Le visite, identificate univocamente dalla combinazione di paziente, data e ora, collegano i medici visitanti, le malattie diagnosticate (con ID e nome) e i farmaci prescritti.
-    
 - Per i farmaci prescritti, è necessario registrare anche il dosaggio sull'associazione, oltre agli attributi dell'entità farmaco che sono ID, nome e costo.
-    
 
 **Generalizzazione dell'entità Ricovero (Hospitalization):** Ogni ricovero è identificato dalla data di inizio per lo specifico paziente ed è supervisionato da un medico curante. Viene suddiviso in due sotto-entità:
 
 - **Completed (Completati):** Memorizzano la data di dimissione/fine e la motivazione (es. dimissione, trasferimento).
-    
 - **Ongoing (In corso):** Memorizzano i contatti (una stringa) di un parente di riferimento in caso di necessità.
-    
 
 ---
 
@@ -67,26 +52,18 @@ Dopo aver completato le fasi di ristrutturazione dello schema concettuale, si ap
 **Regole di traduzione standard:**
 
 - Per ogni entità si definisce una relazione (tabella) con lo stesso nome, mantenendo come colonne gli attributi originali e usando l'identificatore come chiave primaria.
-    
 - Per ogni associazione si definisce una tabella che raggruppa gli attributi dell'associazione stessa più gli identificatori delle entità coinvolte, i quali insieme formano la chiave della nuova tabella.
     
 
 **Risultato - Schema Logico della Clinica Veterinaria:**
 
 - `OWNER (CF, LastName, FirstName)`
-    
 - `TYPE (Type)`
-    
 - `BREED (Breed, Type)`
-    
 - `ANIMAL (AnimalID, Name, BirthDate, Gender, Breed, Owner)`
-    
 - `VISIT (VisitID, VisitDate, Notes, Animal)`
-    
 - `PROCEDURE (Procedure Type)`
-    
 - `VISIT_PROCEDURES (VisitID, Procedure)`
-    
 
 ---
 

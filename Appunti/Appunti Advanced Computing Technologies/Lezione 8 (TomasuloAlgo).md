@@ -1,6 +1,6 @@
 ### 1. Il Contesto e le Innovazioni dell'Algoritmo di Tomasulo
 
-Ideato per il mainfame IBM 360/91 (tre anni dopo l'introduzione dello Scoreboard nel CDC 6600), l'algoritmo di Tomasulo è uno schema di schedulazione dinamica dell'hardware con l'obiettivo di ottenere altissime prestazioni permettendo l'esecuzione fuori ordine senza fare affidamento su compilatori speciali. Questo algoritmo è diventato il fondamento di architetture moderne di grandissimo successo (dalla famiglia Alpha e PowerPC, fino ai moderni Intel Core).
+Ideato per il mainframe IBM 360/91 (tre anni dopo l'introduzione dello Scoreboard nel CDC 6600), l'algoritmo di Tomasulo è uno schema di schedulazione dinamica dell'hardware con l'obiettivo di ottenere altissime prestazioni permettendo l'esecuzione fuori ordine senza fare affidamento su compilatori speciali. Questo algoritmo è diventato il fondamento di architetture moderne di grandissimo successo (dalla famiglia Alpha e PowerPC, fino ai moderni Intel Core).
 
 Mentre lo Scoreboard limitava pesantemente il parallelismo bloccando l'emissione in presenza di conflitti (hazard strutturali e nominali), Tomasulo rivoluziona l'architettura attraverso tre innovazioni fondamentali:
 

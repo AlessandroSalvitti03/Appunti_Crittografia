@@ -6,7 +6,6 @@
     
 - **Garanzie del DBMS:** Il sistema deve assicurare efficacia (aumentando la produttività delle attività dell'utente) , efficienza (gestione ottimizzata di tempi e memoria) , affidabilità (resistenza ai malfunzionamenti hardware e software) e privacy (regolamentazione del controllo e degli accessi).
     
-
 ## 2. Affidabilità e Condivisione (Gestione delle Transazioni)
 
 - **Affidabilità:** I database sono una risorsa e devono essere preservati anche in presenza di malfunzionamenti. Ad esempio, in un trasferimento di fondi tra due conti bancari che subisce un guasto, le transazioni devono essere atomiche (tutte le azioni devono essere eseguite o nessuna) e finali (dopo l'azione, le modifiche non scompaiono). Mantenere l'affidabilità è un compito impegnativo a causa dei frequenti aggiornamenti e della necessità di gestire il buffer.
