@@ -50,8 +50,10 @@
     
     1. **Schema Logico:** Descrizione dell'intero database tramite il modello logico adottato dal DBMS.
     2. **Schema Esterno:** Descrizione di una porzione del database in un modello logico ("viste", possibilmente in modelli diversi).
-    3. **Schema Fisico (Interno):** Descrizione dell'implementazione dello schema logico mediante strutture di memorizzazione fisica.
-        
+	3. **Schema Fisico (Interno):** Descrizione dell'implementazione dello schema logico mediante strutture di memorizzazione fisica.   
+	
+		 ![[Pasted image 20260504121338.png|521]]
+
 - **Indipendenza dei Dati:** Garantita dall'architettura multilivello, che consente l'accesso solo tramite il livello esterno.
     
     - **Fisica:** I livelli logico ed esterno sono indipendenti da quello fisico; si fa riferimento a una relazione sempre nello stesso modo, indipendentemente dalla sua implementazione fisica (che può variare nel tempo).

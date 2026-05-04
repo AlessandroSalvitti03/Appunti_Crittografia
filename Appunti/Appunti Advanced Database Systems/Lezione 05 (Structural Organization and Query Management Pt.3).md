@@ -30,6 +30,7 @@ In base al numero di chiavi effettivamente indicizzate (densità), gli indici si
     
 - **Indice Sparso:** Contiene meno record rispetto al numero di valori univoci presenti nel campo chiave. A differenza di quello secondario, un indice primario può essere sparso.
     
+![[Pasted image 20260504125049.png]]
 
 ---
 
@@ -50,6 +51,9 @@ In base al numero di chiavi effettivamente indicizzate (densità), gli indici si
     
 - Di solito, il numero di livelli è piuttosto contenuto perché i record degli indici sono molto piccoli e l'indice principale è già ordinato. L'obiettivo architettonico è arrivare ad avere il livello più alto formato da un singolo blocco.
     
+Nj number of blocks at index level j (approximetley):
+
+			Nj = Nj-1 / (B/(K+P))
 
 ---
 
@@ -66,9 +70,13 @@ Le normali strutture indicizzate ordinate soffrono in ambienti molto dinamici. P
     - Il bilanciamento è garantito tramite operazioni locali: quando si inserisce un dato e la foglia è piena, il nodo viene diviso in due (**split**) e si aggiunge un puntatore al padre. Viceversa, se un'eliminazione svuota troppo un nodo, i nodi vengono uniti (**merge**). In questo modo l'occupazione resta sempre sopra il 50%.
         
     - Nei B-tree, anche i nodi intermedi possono possedere puntatori diretti ai dati.
-        
+
+	![[Pasted image 20260504125411.png]]
+
+
+
 - **B+ tree:** È la variante più ampiamente utilizzata nei DBMS. La differenza cruciale è che solo i nodi foglia puntano ai dati e, soprattutto, le foglie sono concatenate tra loro in una lista (linked list). Questa struttura li rende eccezionalmente validi per le ricerche per intervalli.
-    
+	![[Pasted image 20260504125518.png]]
 
 ---
 

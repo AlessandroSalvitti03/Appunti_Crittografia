@@ -1,109 +1,53 @@
-Questa seconda parte della lezione sul **Transaction Processing System (TPS)** approfondisce le regole tecniche per la gestione del log, le diverse strategie di aggiornamento del database e le procedure di ripristino (restart) in seguito a un guasto.
+### **1. Il Concetto di Transazione**
 
----
+- **Definizione:** Una transazione è una porzione di programma delimitata da un inizio (`begin transaction` o `start transaction`) e una fine, all'interno della quale deve essere eseguito uno e un solo comando di terminazione: `commit work` (per completare l'operazione con successo) o `rollback work` (per interromperla o abortire).
 
-## 1. L'Irrevocabilità del Commit
+- **Applicazione vs Transazione:** Un'applicazione (es. un programma informatico) può contenere al suo interno diverse transazioni. I sistemi OLTP (On Line Transaction Processing) hanno il compito di gestire l'esecuzione di transazioni per conto di svariate applicazioni concorrenti.
 
-Il destino di una transazione è deciso nel momento esatto in cui il record di **commit** viene scritto nel log in modo sincrono tramite una operazione di _force_.
+### **2. Le Proprietà "ACID"** 
+Una transazione è un'unità di elaborazione che deve garantire quattro proprietà fondamentali:
 
-- **Prima del commit:** Qualsiasi guasto porta all'annullamento (**undo**) di tutte le azioni per ripristinare lo stato originale.
-    
-- **Dopo il commit:** Lo stato finale deve essere garantito e, se necessario, ricostruito tramite una operazione di **redo**.
-    
-- Al contrario del commit, il record di **abort** può essere scritto in modo asincrono.
-    
+- **Atomicity (Atomicità):** La transazione è un'unità indivisibile (tutto o niente). Non può lasciare il database in uno stato intermedio. Un guasto prima del commit richiede l'annullamento delle operazioni fatte (_UNDO_), mentre un guasto dopo il commit richiede, se necessario, la loro ripetizione (_REDO_). L'abort (l'annullamento) può essere volontario ("suicidio") o imposto dal sistema per violazioni o problemi ("omicidio").
+- **Consistency (Coerenza):** La transazione deve rispettare i vincoli di integrità del database. Se lo stato di partenza è corretto, anche quello finale dovrà esserlo.
+- **Isolation (Isolamento):** L'esecuzione di una transazione non deve subire influenze dalle altre transazioni concorrenti. L'esecuzione concorrente deve portare allo stesso risultato di un'esecuzione puramente sequenziale. Non si devono esporre stati intermedi, evitando così l'"effetto domino".
+- **Durability (Durabilità/Persistenza):** Gli effetti di una transazione confermata col commit ("impegno") sono permanenti e non vanno persi nemmeno in presenza di guasti di sistema.
 
----
+### **3. Sistema di Controllo dell'Affidabilità e Memorie** 
+Il modulo del database che si occupa del controllo di affidabilità garantisce l'atomicità e la durabilità gestendo l'esecuzione dei comandi di transazione e le procedure di ripristino in caso di guasto (warm e cold restart). L'architettura prevede tre tipologie di memoria:
 
-## 2. Regole Fondamentali del Log
+- **Memoria Principale:** Veloce ma non persistente (volatile).
+- **Memoria di Massa (Secondaria):** Persistente ma vulnerabile ai danni fisici.
+- **Memoria Stabile:** Una memoria concettuale "invulnerabile", che si ottiene fisicamente tramite tecniche di ridondanza (es. dischi replicati, nastri).
 
-Per garantire la riproducibilità delle operazioni, il sistema segue due regole ferree:
+### **4. Il Log: La "Scatola Nera" del Database**
+Il sistema si affida al **Log**, un file sequenziale memorizzato nella memoria stabile che funge da "giornale di bordo". Esso traccia le operazioni delle transazioni (begin, insert, update, delete, commit, abort) registrando il valore del dato prima della modifica (_Before State_ o _BS_) e dopo la modifica (_After State_ o _AS_), insieme alle operazioni di sistema come _dump_ e _checkpoint_. Ci sono due regole cruciali per la sua scrittura:
 
-1. **Write-Ahead-Log (WAL):** La parte "Before-State" (BS) dei record deve essere scritta nel log _prima_ di eseguire l'operazione corrispondente nel database fisico. Questa regola permette l'**undo**.
-    
-2. **Commit-Precedence:** La parte "After-State" (AS) dei record deve essere scritta nel log _prima_ di completare il commit. Questa regola permette il **redo**.
-    
+- **Write-Ahead-Log (WAL):** Impone che la porzione _Before-State_ sia scritta nel log **prima** di effettuare l'operazione sui dati nel database; questo assicura la possibilità di fare un'azione di _UNDO_.
+- **Commit-Precedence:** Impone che la porzione _After-State_ venga scritta nel log **prima** di eseguire il commit; questo assicura la possibilità di fare un'azione di _REDO_.
 
----
+### **5. Modalità di Scrittura nel Database** 
+Il momento in cui i dati vengono effettivamente trasferiti nel DB varia:
 
-## 3. Strategie di Aggiornamento (Writing Modes)
+- **Modo Immediato:** Il database può contenere valori da transazioni non ancora "committate". In caso di guasto è indispensabile fare **Undo**, ma non serve il Redo.
+- **Modo Differito:** Il database viene aggiornato solo dopo il commit. Non serve fare Undo, ma in caso di guasto è indispensabile il **Redo**.
+- **Modo Misto:** Unisce le due tecniche per ottimizzare le operazioni e richiede sia Undo che Redo (che ricordiamo essere operazioni _idempotenti_, ovvero si ottiene sempre lo stesso risultato sia se eseguite una che più volte).
 
-Esistono diversi modi in cui il DBMS può decidere di scrivere i dati dal buffer al disco fisso:
+### **6. Checkpoint e Dump**
 
-|**Modalità**|**Descrizione**|**Requisiti di Recovery**|
-|---|---|---|
-|**Immediate**|Il DB può contenere valori "After-State" di transazioni non ancora terminate.|Richiede **Undo**, ma non il Redo.|
-|**Deferred**|Il DB non contiene mai valori di transazioni non confermate.|Richiede **Redo**, l'Undo è superfluo.|
-|**Mixed**|La scrittura può avvenire sia in modo immediato che differito per ottimizzare le prestazioni.|Richiede sia **Undo** che **Redo**.|
+- **Checkpoint:** È un'operazione periodica (simile a una "chiusura dei conti" contabile). Sospende l'accettazione di nuove operazioni, salva nella memoria di massa tutte le pagine modificate da transazioni concluse, registra in modo sincrono le transazioni attualmente attive ("a metà") e poi riprende l'attività. Semplifica notevolmente i tempi di recupero dai guasti.
+- **Dump:** È una copia di backup completa del database, generalmente creata quando il sistema non è operativo, e conservata in memoria stabile.
 
----
+### **7. Guasti e Procedure di Ripristino (Restart)** 
+Basandosi su un modello di guasto "Fail-stop", si distinguono:
 
-## 4. Tipologie di Guasto e Procedure di Restart
+- **Soft failures (Guasti leggeri):** Come crash del sistema o cali di tensione, dove si perde solo la memoria principale. Si risolvono con il **Warm Restart**, strutturato in 4 fasi:
+    1. Si cerca l'ultimo checkpoint risalendo all'indietro nel log.
+    2. Si costruiscono gli insiemi UNDO (transazioni da annullare) e REDO (transazioni completate da ripetere).
+    3. _Fase UNDO_: Si ripercorre il log all'indietro, annullando le azioni delle transazioni nell'insieme UNDO.
+    4. _Fase REDO_: Si ripercorre il log in avanti, rieseguendo le azioni delle transazioni nell'insieme REDO.
 
-Il sistema reagisce diversamente a seconda della gravità del malfunzionamento:
+- **Hard failures (Guasti gravi):** Danni alla memoria di massa, dove sopravvive solo la memoria stabile (e quindi il log). Richiedono il **Cold Restart**: si ripristina il database dall'ultimo _dump_ (backup), si riapplicano in avanti tutte le operazioni scritte nel log fino al momento del guasto, per poi completare con la procedura di _Warm Restart_ per sistemare lo stato esatto.
 
-## Guasti "Soft" (Sistema/Software)
-
-Causati da errori di programma, crash di sistema o cali di tensione.
-
-- **Effetto:** La memoria principale (RAM) va perduta, ma la memoria secondaria (disco) rimane integra.
-    
-- **Soluzione:** **Warm Restart**.
-    
-
-## Guasti "Hard" (Hardware/Dispositivi)
-
-Causati da danni fisici ai dischi di memoria secondaria.
-
-- **Effetto:** Anche i dati su disco vanno perduti.
-    
-- **Soluzione:** **Cold Restart**. È necessario ripartire dall'ultimo **backup (dump)**, rieseguire le operazioni del log fino al momento del guasto e poi procedere con un warm restart.
-    
-
----
-
-## 5. Il Processo di Warm Restart
-
-L'obiettivo è classificare le transazioni in base al loro stato al momento del crash e agire di conseguenza:
-
-1. **Ricerca:** Si risale il log all'indietro fino all'ultimo **checkpoint**.
-    
-2. **Classificazione:** Si creano due insiemi: **UNDO** (transazioni attive al checkpoint o iniziate dopo, ma mai terminate) e **REDO** (transazioni che hanno effettuato il commit).
-    
-3. **Fase di UNDO:** Si scorre il log all'indietro annullando le azioni delle transazioni nell'insieme UNDO.
-    
-4. **Fase di REDO:** Si scorre il log in avanti ripetendo tutte le azioni delle transazioni nell'insieme REDO.
-
-![[Pasted image 20260326120939.png|697]]
-
-
-Ecco cosa succede se avviene un crash in punti diversi delle linee temporali:
-
-## 1. Caso (a): Aggiornamento Immediato (Immediate Update)
-
-In questa modalità, il database fisico viene aggiornato _prima_ del commit.
-
-- **Crash prima del record "C"**: Poiché le operazioni di scrittura nel database ($w(x)$ e $w(y)$) sono già avvenute, il sistema deve eseguire un **UNDO**. Usando i valori "Before State" (BS) salvati nel log, il DBMS riporta gli oggetti $X$ e $Y$ al loro stato originale per garantire l'atomicità.
-    
-- **Crash dopo il record "C"**: La transazione è considerata completata con successo. Anche se avviene un crash un istante dopo, i dati sono già nel database. Tuttavia, per durabilità, il sistema potrebbe eseguire un **REDO** se il buffer non fosse stato ancora svuotato completamente sul disco.
-    
-
-## 2. Caso (b): Aggiornamento Differito (Deferred Update)
-
-Qui il database viene aggiornato solo _dopo_ che il commit è stato registrato nel log.
-
-- **Crash prima del record "C"**: Non occorre fare nulla (**Nothing**). Poiché nessuna operazione di scrittura ($w$) ha ancora toccato il database fisico, non ci sono modifiche da annullare.
-    
-- **Crash dopo il record "C" ma prima di $w(x)$ o $w(y)$**: Questo è il caso tipico che richiede un **REDO**. Il sistema vede che la transazione è "impegnata" (commit presente), ma i dati fisici non sono stati ancora scritti; quindi usa i valori "After State" (AS) del log per scrivere $X$ e $Y$ nel database.
-    
-
-## 3. Caso (c): Aggiornamento Misto (Mixed Update)
-
-Questa è una via di mezzo usata per ottimizzare le prestazioni.
-
-- **Crash tra $w(x)$ e il record "C"**: Il sistema deve eseguire l'**UNDO** solo per la parte di dati già scritta ($X$), mentre per $Y$ non serve fare nulla perché non era ancora stato toccato nel database.
-    
-- **Crash dopo il record "C" ma prima di $w(y)$**: Il sistema deve eseguire il **REDO** per l'operazione $w(y)$ che non è ancora avvenuta, assicurandosi che le modifiche di una transazione confermata non vadano perse.
 ___________________________________________________________________
 
 ## Riepilogo Regole d'Oro

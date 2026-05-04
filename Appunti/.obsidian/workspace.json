@@ -8,35 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ae8c3a5f9180fb2e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Appunti Crittografia/Lezione 13.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lezione 13"
-            }
-          },
-          {
-            "id": "decc9c9ab13b881c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Appunti Crittografia/Lezione 15.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lezione 15"
-            }
-          },
-          {
-            "id": "6957cd0b10d69ea7",
+            "id": "2e3591a299a64be5",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -223,47 +195,50 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "8eb07cd78a394b65",
+  "active": "2e3591a299a64be5",
   "lastOpenFiles": [
-    "Appunti Crittografia/Lezione 15.md",
+    "Appunti Advanced Database Systems/Lezione 11.md",
+    "Appunti Advanced Database Systems/Lezione 10 (Distributed Database Pt.2).md",
+    "Appunti Advanced Database Systems/Lezione 09 (Distributed Database Pt.1).md",
+    "Appunti Advanced Database Systems/Lezione 05 (Structural Organization and Query Management Pt.3).md",
+    "Appunti Advanced Database Systems/Lezione 02 (Exercises DB recall).md",
+    "Appunti Advanced Database Systems/IMG ADB/Pasted image 20260504154800.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205713.png",
+    "Appunti Crittografia/IMG/Pasted image 20260326100722.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205635.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205643.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205523.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205515.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205501.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205433.png",
+    "Appunti Crittografia/IMG/Pasted image 20260410205428.png",
+    "Appunti Crittografia/Pianificazione Appunti.md",
+    "Appunti Crittografia/Lezione 9.md",
+    "Appunti Crittografia/Lezione 7-8.md",
+    "Appunti Crittografia/Lezione 6.md",
+    "Appunti Crittografia/Lezione 5.md",
     "Appunti Crittografia/Lezione 16.md",
+    "Appunti Crittografia/Lezione 15.md",
     "Appunti Crittografia/Lezione 14.md",
     "Appunti Crittografia/Lezione 13.md",
-    "Appunti Advanced Database Systems/Lezione 01 (Database Main Concepts).md",
-    "Appunti Advanced Database Systems/Lezione 10 (Distributed Database Pt.2).md",
+    "Appunti Crittografia/Lezione 11.md",
+    "Appunti Crittografia/Lezione 12.md",
+    "Appunti Crittografia/Lezione 10.md",
+    "Appunti Crittografia/IMG",
+    "Appunti Crittografia/Guida.md",
+    "Appunti Crittografia",
+    "Appunti Algorithms and Data Structures/08.md",
+    "Appunti Algorithms and Data Structures/09.md",
+    "Appunti Algorithms and Data Structures/10.md",
+    "Appunti Algorithms and Data Structures/Pianificazione Appunti.md",
     "Appunti Algorithms and Data Structures/07 Graph Visits.md",
-    "Appunti Advanced Computing Technologies/Lezione 8 (TomasuloAlgo).md",
-    "Appunti Advanced Computing Technologies/Lezione 6 (Static Scheduling VLIW).md",
-    "Appunti Advanced Database Systems/Lezione 03 (Structural Organization and Query Management Pt.1).md",
-    "Appunti Advanced Database Systems/Lezione 02 (Exercises DB recall).md",
     "Appunti Algorithms and Data Structures/06 Priority Queues.md",
     "Appunti Algorithms and Data Structures/05 Hash Tables.md",
     "Appunti Algorithms and Data Structures/04 Seacrh Trees.md",
-    "Appunti Algorithms and Data Structures/03 Sorting.md",
-    "Appunti Algorithms and Data Structures/10.md",
-    "Appunti Algorithms and Data Structures/09.md",
-    "Appunti Algorithms and Data Structures/08.md",
-    "Appunti Algorithms and Data Structures/Pianificazione Appunti.md",
-    "Appunti Algorithms and Data Structures/02 Complexity.md",
-    "Appunti Algorithms and Data Structures/01 Introduction.md",
-    "Appunti Advanced Computing Technologies/Lezione 7 (Dynamic Scheduling Scoreboard).md",
-    "Appunti Advanced Computing Technologies/Lezione 5 (ILP).md",
-    "Appunti Advanced Computing Technologies/Lezione 4 (Dynamic Branch Prediction).md",
-    "Appunti Advanced Computing Technologies/Lezione 3 (Static Branch Prediction).md",
-    "Appunti Advanced Computing Technologies/Lezione 2 (Pipelining).md",
-    "Pasted image 20260327125656.png",
-    "Appunti Advanced Database Systems/IMG/Pasted image 20260326123351.png",
-    "Appunti Advanced Database Systems/IMG/Pasted image 20260326123203.png",
-    "Appunti Advanced Database Systems/IMG",
-    "Appunti Advanced Database Systems/IMG/Pasted image 20260326120939.png",
-    "Appunti Crittografia/IMG/Pasted image 20260326101438.png",
-    "Appunti Crittografia/IMG/Pasted image 20260326101415.png",
-    "Appunti Crittografia/IMG/Pasted image 20260326100722.png",
-    "Appunti Crittografia/IMG/Pasted image 20260326100707.png",
-    "Appunti Crittografia/IMG/Pasted image 20260326100654.png",
-    "Appunti Crittografia/IMG/Pasted image 20260326100441.png",
-    "Appunti Advanced Computing Technologies",
     "Appunti Algorithms and Data Structures",
-    "Appunti Crittografia/IMG"
+    "Appunti Advanced Database Systems/IMG ADB",
+    "Appunti Advanced Database Systems",
+    "Appunti Advanced Computing Technologies",
+    "Appunti Advanced Database Systems/IMG ADB/IMG"
   ]
 }

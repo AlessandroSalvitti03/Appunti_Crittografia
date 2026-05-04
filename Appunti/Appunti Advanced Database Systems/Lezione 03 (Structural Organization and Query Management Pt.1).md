@@ -12,14 +12,17 @@
     
 - **Condivisione e Concorrenza:** Essendo una risorsa integrata e condivisa tra diverse applicazioni e utenti , il DBMS genera la presenza di diverse attività su dati condivisi. Questo richiede meccanismi di autorizzazione e controlli di concorrenza. Ad esempio, due prelievi quasi simultanei sullo stesso conto sarebbero corretti se eseguiti in modo seriale. Tuttavia, nei sistemi reali, l'efficienza sarebbe troppo penalizzata se le transazioni fossero seriali: i controlli di concorrenza e affidabilità consentono un compromesso ragionevole.
     
-
+	![[Pasted image 20260504122725.png]]
 ## 3. Memoria Principale vs Memoria Secondaria
 
 - **Differenze chiave:** I programmi possono fare riferimento solo ai dati in memoria principale. I database devono risiedere nella memoria secondaria per due motivi: dimensione e persistenza. I dati in memoria secondaria possono essere utilizzati solo se trasferiti alla memoria principale.
     
 - **Prestazioni e Latenza:** I dispositivi di memoria secondaria sono strutturati in blocchi di lunghezza fissa (ordine di grandezza dei KB). Le uniche operazioni disponibili sono solo la lettura e la scrittura di una pagina (i termini blocco e pagina sono sinonimi). L'accesso è lento: il tempo di posizionamento della testina (10-50 ms), la latenza (5-10 ms) e il tempo di trasferimento (1-2 ms) rendono l'accesso medio non inferiore a 10 ms. Il costo di accesso è quattro o più ordini di grandezza maggiore rispetto a un'operazione in memoria principale. Nelle applicazioni "I/O bound", il costo dipende esclusivamente dal numero di accessi alla memoria secondaria, e l'accesso a blocchi "vicini" (contiguità) ha un impatto di costo inferiore.
-    
 
+
+	![[Pasted image 20260504122337.png]]
+
+Far descrivere foto a Gemini
 ## 4. Gestione del Buffer (Buffer Management)
 
 - **Cos'è il Buffer:** È una grande area della memoria principale, organizzata dal DBMS (pre-allocata) e condivisa tra le transazioni. È organizzata in pagine di dimensione uguale o maggiore ai blocchi di memoria secondaria (1KB-100KB). Lo scopo è ridurre il numero di accessi alla memoria secondaria, potendo anche decidere di differire la scrittura fisica.
@@ -52,8 +55,7 @@
 
 - **Dimensioni e Fattore di Blocco:** I blocchi ("componenti fisici") e i record ("componenti logiche") presentano dimensioni diverse. La dimensione del blocco dipende dal file system, mentre quella del record dipende dall'applicazione. Il Fattore di Blocco indica il numero di record dentro un blocco. Lo spazio residuo $\lfloor L_{B}/L_{R} \rfloor$ può essere usato per record frazionati ("spanned") o ignorato ("unspanned").
     
-- **Struttura della Pagina:** All'interno di una pagina troviamo il dizionario della pagina (con i vari puntatori `*t`), la parte utile della pagina (le tuple effettive), le informazioni di controllo del metodo di accesso e le informazioni di controllo del file system (es. checksum).
-    
+- **Struttura della Pagina:** All'interno di una pagina troviamo il dizionario della pagina (con i vari puntatori `*t`), la parte utile della pagina (le tuple effettive), le informazioni di controllo del metodo di accesso e le informazioni di controllo del file system (es. checksum).    	![[Pasted image 20260504123652.png]]
 - **Primitive del Page Manager:**
     
     - _Inserimento/Aggiornamento:_ Se lo spazio è sufficiente, l'inserimento è diretto. Altrimenti l'operazione deve essere preceduta da una riorganizzazione della pagina (che ha costi limitati in memoria principale) o dalla necessità di accedere/allocare nuovi blocchi.
@@ -61,3 +63,5 @@
     - _Cancellazione:_ È sempre possibile e spesso effettuata senza riorganizzare le informazioni, limitandosi a marcare la tupla come "invalida" per non ridurre lo stack della parte utile.
         
     - _Accesso:_ Si accede a una tupla (o ai suoi campi) tramite il valore della chiave o in base all'offset (la sua posizione) registrato nel dizionario.
+
+

@@ -62,6 +62,7 @@ L'organizzazione hash permette un accesso diretto molto efficiente, ispirandosi 
     - La probabilità di collisioni multiple decresce al crescere della molteplicità, mantenendo la media molto bassa.
         
 
+	![[Pasted image 20260504124344.png]]
 ---
 
 ## 4. File Hash nei DBMS
