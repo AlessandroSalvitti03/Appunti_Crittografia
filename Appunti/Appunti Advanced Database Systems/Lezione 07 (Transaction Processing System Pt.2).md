@@ -42,7 +42,7 @@ L'esecuzione concorrente non regolata può portare a cinque stati incoerenti del
 ## 4. Classi di Serializzabilità: VSR e CSR
 
 Per identificare gli schedule corretti, si definiscono due nozioni di equivalenza:
-
+![[Pasted image 20260504153854.png]]
 ### View-Serializability (VSR)
 
 Due schedule sono **equivalenti per vista** ($\approx_V$) se presentano:
@@ -51,10 +51,8 @@ Due schedule sono **equivalenti per vista** ($\approx_V$) se presentano:
     
 2. Le stesse **scritture finali**: l'ultima operazione di scrittura su ogni oggetto è effettuata dalla stessa transazione in entrambi.
     
-
 - **Limite:** Determinare se uno schedule è VSR è un problema **NP-completo**, quindi non utilizzabile nella pratica.
     
-
 ### Conflict-Serializability (CSR)
 
 Si basa sul concetto di **conflitto**: due azioni $a_i$ e $a_j$ sono in conflitto se operano sullo stesso oggetto e almeno una è una scrittura. Esistono conflitti $R-W, W-R$ e $W-W$.
@@ -62,11 +60,19 @@ Si basa sul concetto di **conflitto**: due azioni $a_i$ e $a_j$ sono in conflitt
 - Due schedule sono **equivalenti per conflitto** ($\approx_C$) se hanno le stesse operazioni e ogni coppia di operazioni in conflitto appare nello stesso ordine in entrambi.
     
 - **Grafo dei Conflitti:** Uno schedule è CSR se e solo se il suo grafo dei conflitti (nodi = transazioni, archi = conflitti orientati) è **aciclico**.
-    
-
+    ![[Pasted image 20260504154123.png]]
 ---
+### **6. Relazione tra CSR e VSR**
 
-## 5. Relazione tra le Classi e Pratica nei DBMS
+- Ogni schedule che è conflict-serializable (CSR) è automaticamente anche view-serializable (VSR). Questo perché avere lo stesso ordine nei conflitti impone necessariamente di avere le stesse scritture finali e le stesse relazioni di lettura.
+- Tuttavia, il viceversa non è vero: la classe CSR è un sottoinsieme della classe VSR.
+
+### **7. Il Controllo di Concorrenza nella Pratica**
+
+- Nonostante la CSR sia più rapida da verificare della VSR, l'algoritmo basato sul grafo richiede comunque tempo lineare, il che è inefficiente per uno scheduler che deve operare in modo incrementale operazione per operazione (non è praticabile aggiornare e controllare l'aciclicità del grafo a ogni singola richiesta).
+- Inoltre, le teorie si basano sulla _commit-projection_, che non è realistica perché presuppone di sapere già in anticipo quali transazioni andranno a buon fine e quali no.
+- Di conseguenza, i DBMS reali utilizzano tecniche pratiche che **garantiscono la conflict-serializability a priori**, senza dover costruire il grafo dei conflitti e senza assumere l'ipotesi della commit-projection.
+### 8. Relazione tra le Classi e Pratica nei DBMS
 
 - **Gerarchia:** Ogni schedule CSR è anche VSR, ma esistono schedule VSR che non sono CSR (il VSR è una classe più ampia). Gli schedule seriali sono un sottoinsieme di entrambi.
     
