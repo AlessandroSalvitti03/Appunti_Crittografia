@@ -64,4 +64,61 @@ Far descrivere foto a Gemini
         
     - _Accesso:_ Si accede a una tupla (o ai suoi campi) tramite il valore della chiave o in base all'offset (la sua posizione) registrato nel dizionario.
 
+_________________________
+## Esercizio 1: L'Algoritmo della Primitiva `Fix`
 
+L'esercizio richiede di descrivere il funzionamento della funzione `fix`, utilizzata dal **Buffer Manager** per richiedere una specifica pagina di dati e renderla disponibile nella memoria centrale.
+
+### Logica dell'Algoritmo (Policy STEAL)
+
+L'algoritmo segue un processo decisionale a cascata per minimizzare gli accessi al disco:
+
+1. **Ricerca nel Buffer:** Il sistema controlla se la pagina richiesta è già presente in RAM.
+    
+    - **Se presente:** L'operazione termina immediatamente. Viene restituito l'indirizzo di memoria, e il contatore della pagina (che indica quanti processi la stanno usando) viene incrementato di $+1$.
+        
+2. **Ricerca di una Pagina Libera:** Se la pagina non è nel buffer, il manager cerca una pagina "libera" (ovvero con contatore uguale a $0$).
+    
+    - **Se trovata:** Se la pagina libera era stata modificata (bit _dirty_ attivo), viene prima scritta su disco (_flush_). Poi, la nuova pagina viene letta dal disco in quello slot, il contatore viene impostato a $1$ e l'indirizzo restituito.
+        
+3. **Gestione del Buffer Pieno (Policy STEAL):** Se non ci sono pagine libere, il sistema "ruba" lo spazio a una pagina esistente:
+    
+    - Viene selezionata una **"pagina vittima"** (tra quelle non utilizzate, con contatore $0$).
+        
+    - I dati della vittima vengono salvati su disco (operazione di _flush_).
+        
+    - La pagina richiesta viene caricata al posto della vittima e l'indirizzo viene restituito al richiedente.
+        
+
+---
+
+## Esercizio 2: Calcolo del Fattore di Blocco e Occupazione
+
+Questo esercizio pratico serve a determinare l'efficienza della memorizzazione fisica di una tabella su disco.
+
+### Dati del problema:
+
+- **Numero di tuple ($N$):** $1.000.000$.
+    
+- **Lunghezza record ($L$):** $200$ byte.
+    
+- **Dimensione blocco ($B$):** $2$ KB ($2.048$ byte).
+    
+### Risoluzione Passaggio per Passaggio
+
+Per risolvere l'esercizio, applichiamo le formule fornite nel riepilogo teorico:
+
+**1. Calcolo del Fattore di Blocco ($F_f$):** Indica quanti record interi possono essere memorizzati in un singolo blocco fisico.
+
+$$F_f = \left\lfloor \frac{B}{L} \right\rfloor = \left\lfloor \frac{2048}{200} \right\rfloor = 10 \text{ record per blocco}$$
+
+_(Nota: usiamo la funzione arrotondamento per difetto perché solitamente i record non vengono spezzati tra due blocchi)_.
+
+**2. Calcolo della dimensione totale della tabella ($D_T$):**
+
+$$D_T = N \times L = 1.000.000 \times 200 = 200.000.000 \text{ byte (circa 200 MB)}$$
+
+
+**3. Calcolo del numero di blocchi necessari ($N_B$):** Rappresenta lo spazio fisico totale occupato dalla tabella sul disco.
+
+$$N_B = \frac{N}{F_f} = \frac{1.000.000}{10} = 100.000 \text{ blocchi}$$

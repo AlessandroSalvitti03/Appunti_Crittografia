@@ -80,3 +80,51 @@ L'organizzazione hash permette un accesso diretto molto efficiente, ispirandosi 
     - Il limite principale è che **non è adeguata** per le ricerche basate su intervalli (es. da A a C) o per le ricerche basate su attributi diversi dalla chiave usata per l'hash.
         
     - Questa struttura degenera se lo spazio sovrabbondante viene ridotto: di conseguenza, funziona bene solo per i file la cui dimensione totale non varia molto nel tempo.
+
+_______
+## Esercizi Pratici
+
+### Esercizio A: Dimensionamento del Database
+
+**Problema:** Hai una tabella con $N = 500.000$ tuple. Ogni record ha una lunghezza fissa $L = 250$ byte. Il sistema utilizza blocchi da $B = 4$ KB ($4.096$ byte).
+
+1. Calcola il **Fattore di Blocco** ($F_f$).
+    
+2. Calcola il **numero di blocchi** ($N_B$) necessari per memorizzare l'intera tabella.
+    
+
+> **Risoluzione:**
+> 
+> 1. $F_f = \lfloor 4096 / 250 \rfloor = 16$ record per blocco.
+>     
+> 2. $N_B = 500.000 / 16 = 31.250$ blocchi.
+>     
+
+---
+
+### Esercizio B: Logica del Buffer Manager
+
+**Domanda:** Durante l'esecuzione di una `fix` per la pagina $P1$, il buffer risulta pieno e non contiene $P1$. Tutte le pagine attualmente in memoria hanno un contatore utenti superiore a $0$, tranne la pagina $P2$ che ha il bit _dirty_ attivo. **Cosa fa il sistema?**
+
+> **Risposta:** Il sistema applica la **Policy STEAL**. Seleziona $P2$ come "vittima" perché ha il contatore a zero. Poiché $P2$ è _dirty_, il manager esegue prima un _flush_ (scrittura su disco) per salvare le modifiche, poi carica $P1$ al suo posto e restituisce l'indirizzo alla transazione richiedente.
+
+---
+
+### Esercizio C: Analisi Overflow Hashing
+
+**Problema:** Un file hash ha $B = 10$ blocchi e un Fattore di Blocco $F = 4$. Usando una funzione hash specifica, scopri che al **Blocco 5** sono state assegnate **13 chiavi** diverse.
+
+1. Quante collisioni si sono verificate?
+    
+2. Quanti record andranno in overflow?
+    
+3. Quanti blocchi di overflow sono necessari per gestire questo eccesso?
+    
+
+> **Risoluzione:**
+> 
+> 1. Ci sono stati **12 eventi di collisione** (la prima chiave occupa il posto, le altre 12 "collidono" nello stesso indirizzo).
+>     
+> 2. Il blocco principale ospita 4 record; quindi $13 - 4 = 9$ record vanno in overflow.
+>     
+> 3. Se ogni blocco di overflow può ospitare 4 record, servono $\lceil 9 / 4 \rceil = 3$ blocchi di overflow per gestire i 9 record extra.

@@ -1,13 +1,23 @@
-
 ### 1. Introduzione: Evoluzione Tecnologica e "Muro della Potenza"
 
 Il miglioramento delle prestazioni dei calcolatori è stato storicamente guidato dai progressi nella tecnologia dei semiconduttori (riduzione delle dimensioni dei transistor e aumento della frequenza di clock) e dai miglioramenti nell'architettura, come l'avvento dei compilatori per linguaggi ad alto livello (HLL), UNIX e le architetture RISC. Questo ha permesso la creazione di dispositivi leggeri e ha aumentato la produttività nello sviluppo del software.
 
+Esistono oggi diverse categorie di calcolatori, ognuna ottimizzata per priorità specifiche:
+
+- **Personal Mobile Device (PMD)** (es. smartphone): il focus è sull'efficienza energetica e la reattività in tempo reale.
+- **Desktop Computing**: ricerca del miglior compromesso tra prezzo e prestazioni.
+- **Server e Cluster (Warehouse Scale Computers)**: il focus si sposta su scalabilità, throughput e alta disponibilità del servizio.
+- **Supercomputer e Sistemi Embedded**: i primi puntano alle massime prestazioni in virgola mobile, i secondi al contenimento estremo dei costi e del consumo energetico.
+
+Nella progettazione odierna, i calcolatori possiedono un'enorme potenza di calcolo ("i core sono gratis"), ma l'ingegneria del software si scontra con una nuova barriera fisica: l'**energia è diventata il nuovo vincolo primario**.
+
 Tuttavia, l'aumento continuo della frequenza di clock si è scontrato con il cosiddetto **Power Wall** (muro dell'energia). La potenza dinamica dissipata da un circuito CMOS è descritta dalla formula: 
 
-	**Potenza = Capacità di carico × Tensione² × Frequenza di commutazione**. 
+	Potenza = Capacità di carico(C) × Tensione(V)² × Frequenza di commutazione(F). 
 
 Mentre per anni i progettisti hanno ridotto la tensione per contenere i consumi permettendo alla frequenza di scalare, questo processo ha raggiunto un limite pratico per il raffreddamento dei microprocessori. La conseguenza diretta è stata un epocale cambio di paradigma (il "parallel step"): l'industria è passata dai sistemi uniprocessore ai **sistemi multiprocessore (multicore)**, puntando sul miglioramento del throughput parallelo piuttosto che sulla velocità del singolo core.
+
+![[Pasted image 20260505171627.png|546]]
 
 Gestione del calore:
 - **TDP (Thermal Design Power)**: Rappresenta il consumo di potenza sostenuto ed è il target per la progettazione dei sistemi di raffreddamento.
@@ -24,7 +34,27 @@ Dire che "un calcolatore è più veloce di un altro" dipende da quale metrica è
 
 - **Throughput (o Larghezza di Banda):** È la quantità totale di lavoro completata in una data unità di tempo. È la metrica fondamentale per i gestori di server e datacenter.
 
+##### **Tempo di risposta vs. Produttività (Throughput)**
+
+- **Il throughput è uguale a 1 / tempo di risposta medio?**
+    - **SÌ**, solo se **NON** c'è sovrapposizione (i compiti sono eseguiti uno dopo l'altro).
+    - Altrimenti, il throughput è **maggiore** di $1/\text{tempo di risposta medio}$.
+        
+- **Esempio:** un buffet con 5 postazioni.
+    - Ogni persona impiega 2 minuti per postazione.
+    - Il tempo totale per riempire il vassoio è **10 minuti**.
+    - **TUTTAVIA**, il throughput è di **1 persona ogni 2 minuti**.
+    - **Sovrapposizione:** ci sono 5 persone che riempiono il vassoio contemporaneamente.
+    - Senza sovrapposizione, il throughput sarebbe solo di $1/10$.
+
 **Esempio di approfondimento:** Se confrontiamo un Boeing 747 con il Concorde, il Concorde ha un tempo di volo inferiore (minore tempo di risposta), ma il Boeing 747, trasportando molti più passeggeri per viaggio, ha un _throughput_ (passeggeri × miglia orarie) nettamente superiore. Inoltre, si dice che un calcolatore X è _n_ volte più veloce di un calcolatore Y se il rapporto tra le prestazioni di X e Y (che equivale al rapporto inverso dei loro tempi di esecuzione) è pari a _n_.
+
+![[Pasted image 20260505172026.png]]
+
+Un calcolatore X è definito n volte più veloce di un calcolatore Y tramite il calcolo dello **Speedup**: 
+$$
+\mathbf{Speedup}(X, Y) = \frac{\text{Prestazioni}(X)}{\text{Prestazioni}(Y)} = \frac{\text{TempoEsecuzione}(Y)}{\text{TempoEsecuzione}(X)}
+$$
 
 - **Warehouse Scale Computers (WSC)**: Sistemi usati per il Software as a Service (SaaS) dove l'enfasi è sulla disponibilità e sul rapporto prezzo-prestazioni.
 
@@ -36,7 +66,15 @@ Dire che "un calcolatore è più veloce di un altro" dipende da quale metrica è
 
 Il tempo di esecuzione della CPU per un programma (escludendo i tempi di attesa per I/O) è dato dal prodotto di tre fattori fondamentali: 
 
-	Tempo CPU = Instruction Count (IC) × CPI × Tempo di Clock (**TCLK​**)**. 
+$$
+\text{CPUTime}(P) = \frac{CC(P)}{f_{CLK}}
+$$
+$$
+\text{or}
+$$
+$$
+\text{CPUTime}(P) = CC(P) \times T_{CLK}
+$$
 
 Oppure dividendo per la frequenza di clock: 
 
@@ -49,6 +87,12 @@ Questi tre termini sono influenzati da diverse scelte hardware e software:
 - **CPI (Clock Cycles per Instruction):** Il numero medio di cicli di clock per eseguire un'istruzione. È determinato dall'organizzazione dell'hardware (pipeline, sistema di memoria) e dall'ISA. Il CPI medio si calcola come ∑(CPIi​×Fi​), dove Fi​ è la frequenza di utilizzo di uno specifico tipo di istruzione.
 
 - **Tempo di Clock (**TCLK​**):** Dipende dalla tecnologia dei semiconduttori e dall'organizzazione circuitale.
+$$
+\text{CPUTime}(P) = IC(P) * CPI * T_{CLK}
+$$
+
+![[Pasted image 20260505173945.png|373]] ![[Pasted image 20260505174000.png|230]]
+![[Pasted image 20260505174034.png|610]]
 
 **Approfondimento:** L'obiettivo del progettista è minimizzare il tempo totale. Spesso modificare una variabile peggiora le altre: ad esempio, semplificare l'ISA (stile RISC) può aumentare il numero di istruzioni (IC), ma permette di costruire un'organizzazione hardware con un clock più veloce o un CPI inferiore.
 
@@ -58,13 +102,14 @@ Questi tre termini sono influenzati da diverse scelte hardware e software:
 
 - **Tecnologia**: La tecnologia dei semiconduttori determina principalmente il tempo di clock.
 
+![[Pasted image 20260505173908.png]]
 ### 4. Quantificare le Scelte di Progetto: La Legge di Amdahl
 
 Il buon senso ingegneristico suggerisce di **rendere veloce il caso più frequente** ("Make the common case fast"). Ottimizzare l'evento comune garantisce un miglioramento prestazionale molto più alto rispetto all'ottimizzazione del caso raro, ed è spesso più semplice da realizzare.
 
 La **Legge di Amdahl** quantifica questo principio: il guadagno prestazionale ottenuto ottimizzando una parte del sistema è limitato dalla frazione di tempo in cui tale parte viene effettivamente utilizzata. La formula è: 
 
-	Speedupoverall​=(1−Frazionemigliorata​)+(Speedupmigliorato​Frazionemigliorata​​)1​.
+![[Pasted image 20260505172914.png|514]]
 
 **Esempio di approfondimento:** Immaginiamo di voler acquistare una nuova CPU 10 volte più veloce per un server. Tuttavia, il server è pesantemente limitato dall'I/O (I/O bound) e spende il 60% del suo tempo ad aspettare i dischi, utilizzando la CPU solo per il 40% del tempo. Speedupoverall​=(1−0.4)+(100.4​)1​=0.6+0.041​=0.641​=1.56. La natura umana è attratta dal "10X più veloce", ma mantenere la giusta prospettiva dimostra che il miglioramento reale di tutto il sistema è di solo 1.56 volte.
 
@@ -92,6 +137,8 @@ Per avere misurazioni realistiche si utilizzano i **benchmark**, ossia programmi
 Per riassumere i risultati di più programmi, lo SPEC normalizza i tempi rispetto a una macchina di riferimento creando uno _SPECratio_. La sintesi avviene calcolando la **Media Geometrica** di tali rapporti, la quale garantisce che le prestazioni relative rimangano coerenti indipendentemente dal calcolatore scelto come base per la normalizzazione.
 
 - **Media Aritmetica Pesata**: Da usare se i programmi del benchmark non vengono eseguiti con la stessa frequenza.
+
+	![[Pasted image 20260505174150.png|204]]
 
 - **Media Armonica**: È obbligatorio usarla quando si mediano dei "tassi" o frequenze (come MIPS o mph) per evitare errori di calcolo.
 
@@ -123,3 +170,15 @@ Nella progettazione di sistemi estesi (come server e storage), le metriche prest
 **Yield (Resa)**: È il fattore chiave che guida la riduzione dei costi dei microprocessori nel tempo.
 
 **Processo**: I chip vengono prodotti su wafer di silicio e poi tagliati in singoli "die" per il test e il packaging.
+
+### 9. Consumo Energetico, Costi e Affidabilità
+
+Oggi il calcolo delle prestazioni deve bilanciarsi con la dissipazione del calore ("Power Wall") e i consumi:
+
+- **Potenza Dinamica (Power):** Consumo dato dalle transizioni di stato dei transistor (0 → 1). La formula è P=21​C⋅V2⋅f (Capacità × Voltaggio² × Frequenza). Ridurre la frequenza di clock abbassa la potenza dissipata istantaneamente, ma non l'energia totale necessaria al task.
+
+- **Potenza Statica:** Dissipazione causata dalle correnti di dispersione (Istatic​×V), che scala linearmente all'aumentare dei transistor e si contiene spegnendo fisicamente i core (Power gating).
+
+- **Costi Produttivi:** Il prezzo dei microprocessori decresce vertiginosamente in base all'aumento dei volumi di produzione (circa il 10% di costo in meno per ogni raddoppio dei volumi) grazie alla curva di apprendimento e all'incremento della "yield" sui wafer di silicio.
+
+- **Affidabilità (Dependability):** La robustezza dei moduli hardware viene modellata usando l'MTTF (Mean Time To Failure) e l'MTTR (Mean Time To Repair). La **Disponibilità (Availability)** complessiva di un calcolatore o di un server è data dalla formula MTTF/(MTTF+MTTR).

@@ -1,4 +1,3 @@
-
 ### 1. Definizione di ILP e Limiti della Pipeline Base
 
 L'**Instruction-Level Parallelism (ILP)** (Parallelismo a livello di istruzioni) è la potenziale sovrapposizione dell'esecuzione di istruzioni non correlate all'interno di un programma.
@@ -49,6 +48,8 @@ Esistono tre categorie principali di dipendenze:
 
 **Approfondimento / Soluzione:** Poiché le dipendenze nominali (Anti e Output) non trasportano informazioni, possono essere risolte cambiando il "nome" del registro usato. Questo processo è detto **Register Renaming (Ridenominazione dei registri)** e può essere fatto staticamente dal compilatore o dinamicamente dall'hardware.
 
+Qualsiasi tecnica progettata per estrarre ILP deve garantire l'integrità di due proprietà critiche: il **flusso dei dati (Data flow)** per ottenere risultati corretti, e il **comportamento delle eccezioni (Exception behavior)**, assicurando che il riordino delle istruzioni non alteri in alcun modo la generazione delle eccezioni.
+
 ### 4. Due filosofie per l'ILP: Schedulazione Statica vs Schedulazione Dinamica
 
 Per gestire la complessità delle emissioni multiple (Multiple Issue) e sfruttare l'ILP, esistono due approcci principali:
@@ -92,7 +93,7 @@ Parlando dei limiti della schedulazione statica, è utile aggiungere il contesto
 
 - **Frequenza dei salti**: Nei programmi MIPS tipici, la frequenza dei rami è tra il **15% e il 25%**, il che significa che vengono eseguite solo **da 4 a 7 istruzioni** tra una coppia di salti. Questo spiega perché è indispensabile sfruttare l'ILP _attraverso_ i rami (speculazione) per ottenere prestazioni elevate.
 
-### 5. La Speculazione (Speculation)
+### 6. La Speculazione (Speculation)
 
 Sia i compilatori sia i processori superscalari moderni spingono l'ILP oltre il limite delle dipendenze di controllo utilizzando la **speculazione**: si tratta di "indovinare" le proprietà di un'istruzione per iniziare a eseguire prematuramente le istruzioni successive.
 
