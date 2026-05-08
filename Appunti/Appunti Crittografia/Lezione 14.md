@@ -8,7 +8,7 @@ Iniziamo la rassegna dei "Classical misuses" (gli usi scorretti classici). Smont
 
 **Testo Originale:**
 > **Classical misuses of RSA**
-> RSA as it has been introduced in Section 4.3 (textbook RSA) is **not a secure** public-key cryptosystem, unless the attacker's capability are limited to those of condition (5) of Definition 4.1 (i.e. the attacker has no other capabilities than accessing encrypted messages [no capabilities at all!]). [...][[Lezione 16]]
+> RSA as it has been introduced in Section 4.3 (textbook RSA) is **not a secure** public-key cryptosystem, unless the attacker's capability are limited to those of condition (5) of Definition 4.1 (i.e. the attacker has no other capabilities than accessing encrypted messages [no capabilities at all!]). [...]
 > **A1: use of a shared modulus**
 > Assume we have a set of $t$ users who decide to use RSA, each with their own pairs of keys $(e_i, d_i)$ but with the **same RSA modulus $n$**.
 > The weakness of this approach is twofold.
