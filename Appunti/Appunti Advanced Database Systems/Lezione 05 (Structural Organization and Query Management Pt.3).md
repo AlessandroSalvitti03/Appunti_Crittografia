@@ -95,3 +95,39 @@ Le teorie discusse vengono implementate commercialmente con varie sfaccettature:
     - _DB2:_ Usa struttura primaria heap o ordinata supportata da un B-tree denso (l'indice sulla primary key è automatico). Gli indici secondari sono B-tree densi.
         
     - _SQL Server:_ Struttura primaria heap o ordinata supportata da un B-tree sparso, con indici secondari gestiti tramite B-tree densi.
+- ## Spiegazione degli Esercizi Svolti
+
+___
+### Esercizio 1: Costruzione di un B-tree ($F=2$)
+
+Inserimento delle chiavi: $10, 20, 5, 6, 12, 30, 7, 17$.
+
+- **Logica dello Split:** Quando un nodo supera la capacità massima (2 chiavi), si divide. Una chiave "sale" al nodo padre per fungere da separatore.
+    
+- **Esempio di inserimento (Slide 9-14):**
+    
+    1. Si inseriscono 12 e 18 nello stesso nodo.
+        
+    2. L'inserimento di 21 causa il primo **split**: 18 sale in un nuovo nodo radice, lasciando 12 a sinistra e 21 a destra.
+        
+    3. Al termine degli inserimenti, l'albero rimane perfettamente bilanciato.
+        
+
+### Esercizio 3: Operazioni di Modifica (Slide 15-22)
+
+Partendo dall'albero costruito, si analizzano inserimenti e cancellazioni dinamiche:
+
+- **Inserimento di 13:** Viene inserito nella foglia accanto al 12.
+    
+- **Inserimento di 8:** Provoca una riorganizzazione per mantenere l'ordine e il bilanciamento.
+    
+- **Cancellazione di 47:** Rimozione diretta dalla foglia.
+    
+- **Cancellazione di 21:** Essendo una chiave centrale, provoca un'operazione di **merge** (fusione) tra nodi fratelli o una ridistribuzione delle chiavi dal padre per evitare che un nodo rimanga troppo vuoto.
+    
+
+### Esercizio 4: Vincolo di Riempimento
+
+Si richiede la costruzione di un **B+ Tree** di ordine $F=3$ con nomi botanici (limone, cipresso, ecc.).
+
+- **Vincolo critico:** Ogni nodo (eccetto la radice) deve essere **pieno almeno a metà**. Questo significa che almeno la metà dei puntatori in ogni nodo deve essere non nulla, garantendo l'efficienza dello spazio.

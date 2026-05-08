@@ -1,7 +1,34 @@
-
 ### 1. Il Processore MIPS e l'Esecuzione Sequenziale
 
 Il processore MIPS si basa su un'architettura RISC (Reduced Instruction Set Computer) di tipo LOAD/STORE. Questo significa che le operazioni della ALU avvengono solo sui registri, e servono istruzioni dedicate (`lw` e `sw`) per trasferire i dati tra i registri e la memoria.
+
+**Definizione dell'ISA (Il "Contratto")**
+	Si stabilisce il set di istruzioni, definendo operazioni, registri e tipi di dati. Rappresenta il punto d'incontro fondamentale tra software e hardware.
+	
+**Descrizione RTL (La Logica del Flusso)**
+	Il comportamento delle istruzioni viene formalizzato tramite il linguaggio **RTL** (_Register Transfer Level_), descrivendo come i dati si spostano tra i registri e la memoria.
+	
+**Costruzione del Datapath (L'Infrastruttura Fisica)**
+	Si progetta la struttura che manipola i dati, includendo:
+	- **Unità Funzionali:** Come l'ALU per i calcoli.
+	- **Componenti di Memoria:** Registri architetturali e di supporto (es. MAR e MBR).
+	- **Interconnessioni:** Bus e multiplexer per instradare le informazioni.
+	
+**Mappatura Logica e Unità di Controllo (Il "Cervello")**
+	- **Mappatura:** Ogni istruzione viene associata alla sua sequenza di passi RTL.
+	- **Control Unit:** Si crea un **Diagramma di Transizione di Stato (STD)** che definisce come l'unità di controllo deve inviare i segnali di sincronizzazione al datapath per eseguire le istruzioni ad ogni ciclo di clock.
+
+### 2. Dal Programma all'Infrastruttura Hardware
+
+L'hardware non è a conoscenza dell'intero programma, ma comprende solo le singole istruzioni; a un livello ancora più basso, le macchine a stati cambiano stato a ogni ciclo di clock.
+
+- **L'esempio pratico:** Un'operazione di alto livello come `k = b + c + d` viene scomposta in una sequenza di istruzioni base per l'architettura (ISA). Per calcolare questa somma, il processore esegue prima delle istruzioni di `load` per caricare le variabili dalla memoria ai registri (es. `R02`, `R03`), poi esegue le somme tramite la ALU (`add`), e infine usa una `store` per salvare il risultato finale (`k`) di nuovo in memoria.
+
+- **Infrastruttura di Calcolo:** Per supportare questo flusso, il sistema è diviso in una **CPU** (composta dal Datapath con ALU e Registri, e dalla Control Unit) e una **Memoria**. Queste componenti comunicano tramite tre bus fondamentali:
+    - _Control Bus_, _Data Bus_ e _Address Bus_.
+    - Le istruzioni fluiscono dalla memoria alla CPU, mentre i dati possono fluire in entrambe le direzioni.
+
+### 3. Fasi delle Istruzioni MIPS
 
 L'esecuzione di ogni istruzione nel MIPS può essere suddivisa in un massimo di 5 fasi fondamentali:
 
@@ -24,7 +51,7 @@ L'esecuzione di ogni istruzione nel MIPS può essere suddivisa in un massimo di 
 
 - **Istruzioni di Salto**: Oltre a `beq` e `bne` (condizionali), ricorda `j` (jump incondizionato) e `jr` (jump register, che salta all'indirizzo contenuto in un registro) .
 
-### 2. Il Concetto di Pipelining
+### 4. Il Concetto di Pipelining
 
 Il pipelining è una tecnica di ottimizzazione delle prestazioni basata sulla **sovrapposizione dell'esecuzione di istruzioni multiple** che derivano da un flusso sequenziale.
 
@@ -44,7 +71,7 @@ ___
 
 - **Condizione Ideale**: Lo speedup è uguale al numero di stadi solo se questi sono **perfettamente bilanciati**.
 
-### 3. I Pericoli della Pipeline: Gli Hazard
+### 5. I Pericoli della Pipeline: Gli Hazard
 
 Nella realtà, ci sono situazioni in cui l'istruzione successiva non può essere eseguita nel ciclo di clock previsto, riducendo lo speedup ideale. Questi eventi si chiamano **Hazard** e si dividono in tre categorie: Strutturali, sui Dati e sul Controllo.
 

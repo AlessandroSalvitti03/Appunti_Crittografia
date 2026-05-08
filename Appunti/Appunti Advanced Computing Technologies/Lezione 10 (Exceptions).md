@@ -8,14 +8,15 @@ Il normale flusso di esecuzione sequenziale di un programma può essere interrot
 
 **Approfondimento / Classificazione:** Gli eventi si possono classificare anche in base a come il sistema riprende l'esecuzione.
 
-- _Eventi Resume (Ripresa):_ L'esecuzione del programma continua dopo aver gestito l'interrupt (es. I/O, page fault).
+Oltre alla divisione tra sincroni e asincroni, le eccezioni possono essere classificate in base a:
 
-- _Eventi Terminate (Interruzione):_ Il programma viene bloccato (es. istruzione indefinita, power failure).
+- **User requested vs Coerced:** Le eccezioni richieste dall'utente (es. _system call_) sono prevedibili. Quelle "coerced" sono imposte dall'hardware in situazioni anomale.
 
-Oltre alla natura sincrona/asincrona, gli eventi si distinguono per: 
-* **Mascherabilità:** Gli interrupt mascherabili possono essere ignorati dall'hardware se il bit di maschera è attivo. 
+- **User maskable vs Nonmaskable:** Una maschera hardware può controllare se il processore deve rispondere a un determinato interrupt o ignorarlo.
 
-* **Temporalità:** Gli interrupt asincroni avvengono solitamente **tra** le istruzioni (facili da gestire), mentre le eccezioni avvengono **durante** l'esecuzione (richiedono stop e riavvio).
+- **Within vs Between instructions:** Le eccezioni sincrone avvengono _all'interno_ (within) dell'istruzione, obbligando a fermarla e riavviarla; gli eventi asincroni che avvengono _tra_ (between) un'istruzione e l'altra sono spesso situazioni catastrofiche che causano l'interruzione del programma.
+
+- **Resume vs Terminate:** L'evento può permettere la ripresa dell'esecuzione del programma (resume) oppure obbligare il sistema a terminarlo (terminate).
 
 ### 2. Il Meccanismo di Gestione (Hardware & Sistema Operativo)
 
@@ -32,7 +33,31 @@ Il Sistema Operativo prenderà poi le decisioni necessarie (es. terminare il pro
 * Prima di abilitare nuovamente gli interrupt per permettere l'annidamento (nested interrupts), l'handler deve spostare il valore del PC dai registri speciali (EPC) ai registri di uso generale (GPR). 
 * L'uscita dall'handler avviene tramite l'istruzione speciale **RFE** (Return-From-Exception) o **ERET**, che ripristina la modalità utente e lo stato dei controlli hardware in un colpo solo.
 
-### 3. Interrupt Precisi vs Imprecisi
+### 3. Eccezioni Sincrone 
+
+Le eccezioni sincrone sono eventi causati direttamente dall'esecuzione di una specifica istruzione. Ecco le loro caratteristiche principali:
+
+- **Origine**: Sono generate da un'istruzione che non può essere completata e richiede l'intervento del sistema operativo.
+    
+- **Esempi comuni**: Includono chiamate di sistema (_system calls_), opcode illegali, istruzioni privilegiate, errori di allineamento dell'indirizzo o _page fault_.
+    
+- **Rilevamento nella Pipeline**: Solitamente vengono rilevate nelle fasi avanzate della pipeline, come EX (Esecuzione) o M (Memoria).
+    
+- **Priorità**: Se una singola istruzione causa più eccezioni in diverse fasi della pipeline, l'eccezione rilevata nella fase più antica (quella cronologicamente precedente nell'ordine dei cicli) ha la precedenza e annulla le altre.
+
+### 4. Interrupt Precisi 
+
+Un interrupt (o eccezione) è definito "preciso" quando lo stato della macchina è preservato in modo coerente nel momento in cui l'esecuzione viene interrotta. Perché un interrupt sia considerato preciso, devono essere soddisfatte queste condizioni:
+
+- **Stato del Program Counter**: Il PC deve puntare esattamente all'istruzione che ha causato l'eccezione (istruzione "faulting") o alla successiva istruzione pronta per essere eseguita.
+    
+- **Istruzioni Precedenti**: Tutte le istruzioni che precedono quella che ha causato l'errore (nell'ordine logico del programma) devono aver terminato la loro esecuzione e aver aggiornato lo stato del processore (_committed_).
+    
+- **Istruzioni Successive**: Nessuna istruzione successiva a quella incriminata deve aver modificato lo stato dell'architettura (registri o memoria).
+    
+- **Importanza**: Questa proprietà è fondamentale per le eccezioni "riavviabili" (come i _page fault_), dove il sistema operativo deve poter riprendere l'esecuzione esattamente dal punto dell'interruzione dopo aver risolto il problema.
+
+### 5. Interrupt Precisi vs Imprecisi
 
 Affinché un programma possa essere riavviato in modo sicuro dopo un'eccezione, il processore deve implementare **Interrupt Precisi**. Un interrupt si dice _preciso_ se esiste un singolo punto di interruzione tale per cui:
 
@@ -41,7 +66,7 @@ Affinché un programma possa essere riavviato in modo sicuro dopo un'eccezione, 
 
 **Esempio matematico (Perché sono desiderabili?):** Supponiamo di calcolare la funzione f(x)=xsin(x)​. Cosa succede se x→0? Il calcolo f(0)=00​ genererà un "Not a Number" (NaN) e un'operazione illegale. Se l'interrupt fosse _impreciso_ (come avveniva in alcuni vecchi calcolatori o in pipeline molto sbilanciate), il PC salvato potrebbe puntare a istruzioni molto successive, rendendo difficilissimo per il programmatore o per il SO capire esattamente _quale_ istruzione ha causato l'errore matematico. Le eccezioni precise permettono invece di isolare perfettamente l'errore o di "sistemare" la situazione (es. un TLB fault) per poi ri-eseguire l'istruzione in modo del tutto trasparente per l'utente.
 
-### 4. Gestione delle Eccezioni nella Pipeline (Il "Flush")
+### 6. Gestione delle Eccezioni nella Pipeline (Il "Flush")
 
 Nelle architetture con pipeline, le eccezioni sono trattate in modo simile agli hazard sul controllo (i salti). Più istruzioni si trovano in fasi diverse nello stesso momento: un'eccezione per istruzione non definita avviene nello stadio ID, mentre un overflow aritmetico avviene nello stadio EX.
 
@@ -54,7 +79,7 @@ Se si verifica un overflow nello stadio EX:
 _Approfondimento sulle eccezioni multiple:_ Se più istruzioni nella pipeline generano eccezioni nello stesso ciclo di clock, l'hardware assegna la priorità in base all'ordine originale del programma (l'istruzione che si trova nello stadio più avanzato della pipeline ha la precedenza).
 
 Per gestire eccezioni fuori ordine, l'hardware applica il **tagging**: ogni istruzione viaggia nella pipeline con un flag che indica se ha generato un'eccezione. L'eccezione viene effettivamente 'lanciata' solo quando l'istruzione raggiunge il **commit point** (stadio M). Se un'istruzione precedente ha già generato un'eccezione, quelle successive vengono trasformate in NOP marcati (bolle).
-### 5. Speculazione Hardware ed Eccezioni (Capitoli Avanzati / Appendice)
+### 7. Speculazione Hardware ed Eccezioni (Capitoli Avanzati / Appendice)
 
 Nelle architetture avanzate (Superscalari, Tomasulo, esecuzione fuori ordine), il processore adotta il meccanismo della **Speculazione**: cerca di prevedere i salti ed esegue le istruzioni prematuramente per mantenere alto il throughput.
 

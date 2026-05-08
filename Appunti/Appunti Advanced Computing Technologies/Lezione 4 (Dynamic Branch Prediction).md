@@ -1,4 +1,3 @@
-
 ### 1. Introduzione: Perché passare alla predizione dinamica?
 
 Come visto con la predizione statica, ipotizzare a priori l'esito di un salto condizionato (ad esempio assumendo sempre "salto non effettuato") comporta un limite per le prestazioni, specialmente al crescere della profondità della pipeline o nei processori a emissione multipla (superscalari), dove la penalità per un errore costa molti cicli di clock o istruzioni perse.

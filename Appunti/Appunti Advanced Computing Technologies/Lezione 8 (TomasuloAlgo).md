@@ -5,7 +5,9 @@ Ideato per il mainframe IBM 360/91 (tre anni dopo l'introduzione dello Scoreboar
 Mentre lo Scoreboard limitava pesantemente il parallelismo bloccando l'emissione in presenza di conflitti (hazard strutturali e nominali), Tomasulo rivoluziona l'architettura attraverso tre innovazioni fondamentali:
 
 1. **Controllo e buffer distribuiti:** La logica di controllo non è più un unico blocco centralizzato. Le code di istruzioni in attesa, chiamate **Reservation Stations (Stazioni di Prenotazione)**, sono posizionate direttamente in ingresso alle varie Unità Funzionali (FU).
+
 2. **Register Renaming in Hardware:** I registri nominati nelle istruzioni vengono rimpiazzati da valori effettivi oppure da "puntatori" alle Reservation Station che li produrranno. Essendoci fisicamente più stazioni di prenotazione che registri nel calcolatore, l'hardware applica ottimizzazioni di rinomina (renaming) che un compilatore non potrebbe fare, **evitando totalmente i falsi hazard WAW (Write-After-Write) e WAR (Write-After-Read)**.
+
 3. **Common Data Bus (CDB):** I risultati non transitano in modo sequenziale attraverso i registri. I dati vengono trasmessi ("in broadcast") dalle FU al Common Data Bus e prelevati "al volo" da tutte le Stazioni di Prenotazione in attesa, abilitando un forwarding hardware formidabile.
 
 ### 2. Struttura delle Reservation Stations e dei Buffer
@@ -19,6 +21,10 @@ Ogni istruzione in corso di elaborazione occupa una riga (entry) all'interno di 
 
 Anche le istruzioni di memoria (`Load` e `Store`) vengono gestite come se fossero normali unità funzionali dotate di propri buffer (con un campo A per l'indirizzo di memoria).
 
+Per quanto riguarda le memorie e i registri:
+
+- Il **Register File (RF)** e gli **Store buffer** hanno a loro volta un campo Valore (V) e un campo Puntatore (Q). Se Q è zero, significa che nessuna istruzione attiva sta calcolando quel risultato e il contenuto è valido.
+- I **Load/Store buffer** possiedono un campo Indirizzo (**A**) che contiene inizialmente l'offset dell'istruzione e, successivamente al calcolo, l'indirizzo effettivo di memoria.
 ### 3. Le 3 Fasi dell'Algoritmo
 
 Il nucleo dell'algoritmo di Tomasulo classico si divide in 3 stadi operativi:
@@ -40,9 +46,44 @@ L'implementazione originale IBM dell'algoritmo di Tomasulo effettua scritture (c
 Per questo motivo, la variante moderna dell'architettura Tomasulo utilizzata oggi (approfondita nei testi di _Computer Organization and Design_) prevede l'aggiunta di una **Commit Unit (Unità di Consegna)** e di un **Reorder Buffer (Buffer di Riordino)**.
 
 - **In-Order Commit:** L'emissione (issue) avviene in ordine, l'esecuzione avviene fuori ordine (sfruttando le RS descritte sopra), ma **la consegna dei risultati (commit) è costretta ad avvenire in ordine**.
+
 - **Meccanismo:** Quando una Reservation Station calcola un risultato, non lo scrive più in maniera permanente nel Register File né in memoria. Lo deposita nel _Reorder Buffer_.
+
 - Solo quando l'istruzione diventa non-speculativa (cioè giunge alla testa del ROB e si è sicuri che non ci sono stati salti sbagliati o eccezioni), la _Commit Unit_ permette al risultato di "ritirarsi", aggiornando finalmente e in modo permanente i registri visibili al programmatore o la memoria.
 
 **Bypassing dal ROB**: Se un'istruzione richiede un operando che è già stato calcolato ma non è ancora stato "ritirato" (commit) nel Register File, il valore viene prelevato direttamente dal **campo Value del ROB**. Questo permette di non bloccare l'esecuzione in attesa del commit sequenziale.
 
 Se il processore si rende conto di aver speculato male, semplicemente svuota le istruzioni temporanee dal ROB e l'esecuzione riparte in modo pulito dal percorso corretto.
+
+### 5. Tomasulo vs Scoreboard
+Il confronto tra l'algoritmo di **Tomasulo** (usato nell'IBM 360/91) e lo **Scoreboard** (usato nel CDC 6600) evidenzia come il primo sia un'evoluzione più sofisticata per gestire il parallelismo dinamico.
+
+Ecco i punti chiave del confronto estratti dal documento:
+#### Architettura e Controllo
+
+- **Scoreboard (Centralizzato):** Il controllo è centralizzato; lo Scoreboard monitora lo stato di tutte le unità funzionali e dei registri da un unico punto.
+    
+- **Tomasulo (Distribuito):** La logica di controllo e i buffer sono distribuiti tra le unità funzionali (FU). I buffer operandi sono chiamati **Reservation Stations** (RS).
+
+#### Gestione degli Hazard (Rischi)
+- **Risoluzione WAR e WAW:**
+    
+    - Lo **Scoreboard** mette in stallo l'esecuzione o il completamento delle istruzioni per evitare conflitti di tipo "Write-After-Read" (WAR) e "Write-After-Write" (WAW).
+        
+    - **Tomasulo** utilizza il **Register Renaming** (rinomina dei registri). I nomi dei registri nelle istruzioni vengono sostituiti da valori o puntatori alle RS, eliminando alla radice i rischi WAR e WAW.
+        
+- **Rischi Strutturali:** Entrambi non emettono istruzioni se c'è un rischio strutturale (mancanza di unità funzionali o RS libere), ma Tomasulo ha solitamente una "finestra di emissione" più ampia (14 istruzioni contro le 5 dello Scoreboard).
+
+#### Propagazione dei Risultati
+
+- **Scoreboard:** I risultati vengono scritti direttamente nei registri, che devono poi essere letti dalle istruzioni successive. Questo approccio soffre della mancanza di _forwarding_.
+    
+- **Tomasulo:** Utilizza il **Common Data Bus (CDB)**. I risultati vengono trasmessi in "broadcast" sul bus; tutte le unità funzionali in attesa di quel dato lo catturano simultaneamente senza passare necessariamente per i registri.
+
+#### Performance e Capacità Avanzate
+
+- **Loop Unrolling:** L'algoritmo di Tomasulo permette l'unrolling dei cicli direttamente in hardware, ottimizzazione non possibile con lo Scoreboard.
+    
+- **Esecuzione oltre i Branch:** Le istruzioni intere (Integer) possono superare i salti (branches), permettendo alle operazioni in virgola mobile di procedere oltre i limiti dei blocchi base.
+    
+- **Esempio Temporale:** In uno scenario di test, il codice che sullo **Scoreboard** termina al ciclo **62**, con **Tomasulo** termina al ciclo **57**. La lentezza dello Scoreboard è dovuta principalmente ai rischi strutturali e alla mancanza di meccanismi di _forwarding_.

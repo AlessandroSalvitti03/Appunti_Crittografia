@@ -1,4 +1,3 @@
-
 ### 1. Il Problema dei Salti: I Control Hazards
 
 Le istruzioni di salto condizionato (come `beq` o `bne` nel MIPS) verificano una condizione e, se questa è soddisfatta, modificano il Program Counter (PC) con l'indirizzo di destinazione del salto, detto **Branch Target Address (BTA)**.
@@ -6,6 +5,8 @@ Le istruzioni di salto condizionato (come `beq` o `bne` nel MIPS) verificano una
 In un'architettura con pipeline, questo meccanismo crea un problema fondamentale: per mantenere la pipeline piena, il processore deve prelevare (fetch) una nuova istruzione a ogni ciclo di clock. Tuttavia, la decisione di effettuare o meno il salto (e il calcolo del BTA) non è nota immediatamente. Questo ritardo nel determinare quale sia l'istruzione corretta da prelevare genera un **Control Hazard** (o Branch Hazard).
 
 I Control Hazards riducono le prestazioni reali rispetto allo speedup ideale della pipeline, e la perdita dipende dalla penalità del salto (i cicli di stallo) e dalla frequenza dei salti nel codice.
+
+$$ \text{Pipeline Speedup} = \frac{\text{Pipeline Depth}}{1 + \text{Stall Cycles per Instruction due to Branches}} $$ $$ \text{Pipeline Speedup} = \frac{\text{Pipeline Depth}}{1 + \text{Branch Frequency} \times \text{Branch Penalty}} $$
 
 - **Equazione del CPI**: Il $CPI$ reale in presenza di salti è dato da:
 

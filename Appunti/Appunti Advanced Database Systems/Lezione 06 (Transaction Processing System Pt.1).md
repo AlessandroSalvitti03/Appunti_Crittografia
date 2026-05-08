@@ -8,8 +8,11 @@
 Una transazione è un'unità di elaborazione che deve garantire quattro proprietà fondamentali:
 
 - **Atomicity (Atomicità):** La transazione è un'unità indivisibile (tutto o niente). Non può lasciare il database in uno stato intermedio. Un guasto prima del commit richiede l'annullamento delle operazioni fatte (_UNDO_), mentre un guasto dopo il commit richiede, se necessario, la loro ripetizione (_REDO_). L'abort (l'annullamento) può essere volontario ("suicidio") o imposto dal sistema per violazioni o problemi ("omicidio").
+
 - **Consistency (Coerenza):** La transazione deve rispettare i vincoli di integrità del database. Se lo stato di partenza è corretto, anche quello finale dovrà esserlo.
+
 - **Isolation (Isolamento):** L'esecuzione di una transazione non deve subire influenze dalle altre transazioni concorrenti. L'esecuzione concorrente deve portare allo stesso risultato di un'esecuzione puramente sequenziale. Non si devono esporre stati intermedi, evitando così l'"effetto domino".
+
 - **Durability (Durabilità/Persistenza):** Gli effetti di una transazione confermata col commit ("impegno") sono permanenti e non vanno persi nemmeno in presenza di guasti di sistema.
 
 ### **3. Sistema di Controllo dell'Affidabilità e Memorie** 
@@ -23,13 +26,16 @@ Il modulo del database che si occupa del controllo di affidabilità garantisce l
 Il sistema si affida al **Log**, un file sequenziale memorizzato nella memoria stabile che funge da "giornale di bordo". Esso traccia le operazioni delle transazioni (begin, insert, update, delete, commit, abort) registrando il valore del dato prima della modifica (_Before State_ o _BS_) e dopo la modifica (_After State_ o _AS_), insieme alle operazioni di sistema come _dump_ e _checkpoint_. Ci sono due regole cruciali per la sua scrittura:
 
 - **Write-Ahead-Log (WAL):** Impone che la porzione _Before-State_ sia scritta nel log **prima** di effettuare l'operazione sui dati nel database; questo assicura la possibilità di fare un'azione di _UNDO_.
+
 - **Commit-Precedence:** Impone che la porzione _After-State_ venga scritta nel log **prima** di eseguire il commit; questo assicura la possibilità di fare un'azione di _REDO_.
 
 ### **5. Modalità di Scrittura nel Database** 
 Il momento in cui i dati vengono effettivamente trasferiti nel DB varia:
 
 - **Modo Immediato:** Il database può contenere valori da transazioni non ancora "committate". In caso di guasto è indispensabile fare **Undo**, ma non serve il Redo.
+
 - **Modo Differito:** Il database viene aggiornato solo dopo il commit. Non serve fare Undo, ma in caso di guasto è indispensabile il **Redo**.
+
 - **Modo Misto:** Unisce le due tecniche per ottimizzare le operazioni e richiede sia Undo che Redo (che ricordiamo essere operazioni _idempotenti_, ovvero si ottiene sempre lo stesso risultato sia se eseguite una che più volte).
 
 ### **6. Checkpoint e Dump**
@@ -57,7 +63,6 @@ Indipendentemente dalla linea temporale, il DBMS rispetta sempre queste due rego
 1. **WAL (Write-Ahead-Log)**: Il record di log ($U$) deve sempre precedere la scrittura nel DB ($w$) per permettere l'UNDO.
     
 2. **Commit-Precedence**: Tutti i record di log ($AS$) devono essere scritti prima di considerare valido il Commit, per permettere il REDO.
-
 
 
 ![[Pasted image 20260326123203.png]]
