@@ -6,7 +6,7 @@ Smontiamo questi nuovi attacchi (A4 e A5) e scopriamo la cura definitiva!
 
 ---
 
-### 1. La Firma Ingenua (Textbook RSA Signatures)
+### 1. (Dal pdf) La Firma Ingenua (Textbook RSA Signatures)
 
 **Testo Originale:**
 
@@ -36,7 +36,7 @@ Tutto perfetto, no? **Assolutamente no.** La matematica pura di RSA è troppo ma
 
 ---
 
-### 2. I Disastri della Firma RSA Pura
+### 2. (Dal pdf) I Disastri della Firma RSA Pura
 
 #### A4: La Falsificazione Esistenziale (Il Documento Senza Senso)
 
@@ -96,7 +96,7 @@ Per farti vedere con i tuoi occhi come i pezzi di questa trappola si incastrano 
 
 ---
 
-### 3. La Cura Universale (Hash-Then-Sign e RSA-FDH)
+### 3. (Dal pdf) La Cura Universale (Hash-Then-Sign e RSA-FDH)
 
 **Testo Originale:**
 
@@ -205,8 +205,6 @@ Guarda le equazioni e il diagramma a cascata:
 #### Fase 3: Finalizing
 
 Una volta finito l'ultimo blocco con il padding, l'ultimo "succo" rimasto ($h_l$) subisce un'ultima trasformazione tramite una funzioncina finale $g$. E boom: ecco la tua Impronta Digitale $h(m)$.
-
-Per farti capire la potenza visiva ed algoritmica di questa catena, ti costruisco un nastro trasportatore virtuale. Potrai inserire un messaggio e vedere esattamente come i blocchi vengono fusi uno dentro l'altro, portandosi dietro "la memoria" di tutto ciò che è passato prima!
 
 La frase tagliata alla fine ("The importance of the MD construction is due to the following result:") sta per annunciare il Teorema di Merkle-Damgård. Scommetto che dirà: _Se compri una funzione di compressione $C$ sicura, ti garantisco matematicamente che l'intera catena di montaggio sarà a prova di collisione!_
 
@@ -339,7 +337,7 @@ In queste due pagine, il professore ci mostra l'algoritmo definitivo (RSA-FDH) e
 
 Smontiamo la pagina e vediamo gli hacker in azione!
 
-### 12. Il Protocollo Standard: RSA-FDH
+### 12. (Dal pdf) Il Protocollo Standard: RSA-FDH
 
 **Testo Originale:**
 
@@ -432,9 +430,62 @@ Se l'Hash fa pena, tu puoi generare due contratti diversi con lo stesso Hash. Fi
 
 Per farti toccare con mano quanto sia assurdo e pericoloso il "Copia-Incolla Letale" (Catastrofe 2), ti ho preparato un simulatore. Mettiti nei panni dell'hacker, sfrutta un Hash debole e ruba la firma di Alice!
 
+### 13.1 (Dal pdf) Dai Protocolli di Identificazione alle Firme
+
+Prima di arrivare agli standard come il DSA, bisogna capire come si dimostra un'identità. Il professore ha spiegato i **Protocolli di Identificazione ($\Sigma$-protocols)**: sono schemi interattivi dove un **Prover ($P$)** convince un **Verifier ($V$)** di conoscere un segreto (chiave privata $x$) senza mai rivelarlo.
+
+#### Le 3 Proprietà Fondamentali (Dalla Lavagna)
+
+Perché un protocollo sia sicuro, deve rispettare questi tre requisiti:
+
+1. **Correctness (Correttezza):** Se il Prover conosce davvero il segreto $x$, il Verifier accetterà sempre la prova.
+    
+2. **Honest-Verifier Zero-Knowledge (HVZK):** L'interazione non deve far trapelare alcuna informazione sul segreto $x$. Un estraneo che guarda la trascrizione non impara nulla.
+    
+3. **Special Soundness (Robustezza Speciale):** È impossibile per un impostore superare la verifica se non conosce $x$. Matematicamente, se conoscessi due risposte diverse per lo stesso impegno, potrei estrarre il segreto.
+    
+
 ---
 
-### 14. Il Prossimo Capitolo: DSA
+#### Il Protocollo di Schnorr (Il cuore del sistema)
+
+Questo è l'antenato del DSA. Si basa sulla difficoltà del logaritmo discreto ($DLOG$).
+
+- **Setup:** Chiave privata $x$, chiave pubblica $h = g^x$.
+    
+- **Passaggio 1 (Commitment):** $P$ sceglie un numero casuale $r$ e invia $R = g^r \pmod p$.
+    
+- **Passaggio 2 (Challenge):** $V$ risponde con una sfida casuale $c$.
+    
+- **Passaggio 3 (Response):** $P$ invia $s = r + cx \pmod q$.
+    
+
+**Verifica:** Il Verifier controlla se $g^s = R \cdot h^c$. Se l'uguaglianza regge, l'identità è confermata.
+
+---
+
+#### La Trasformata di Fiat-Shamir (FS): Rendere la firma "statica"
+
+Il problema del protocollo sopra è che richiede che $P$ e $V$ siano online contemporaneamente. Per trasformarlo in una **Firma Digitale** (che è un file statico), usiamo il trucco di **Fiat-Shamir**.
+
+**L'idea:** Invece di aspettare che il Verifier ci mandi la sfida $c$, la "creiamo" noi usando una funzione di Hash.
+
+$$c = H(R \parallel m)$$
+
+Dove $m$ è il messaggio che vogliamo firmare. In questo modo:
+
+1. La sfida è legata al messaggio (se cambi $m$, cambia $c$).
+    
+2. Non serve più il Verifier durante la creazione (non interattività).
+    
+3. Lo schema risultante è **EUF-CMA** (resistente alle falsificazioni).
+    
+
+> **Nota:** Questo spiega perché negli schemi come **RSA-FDH** o **DSA** vedi sempre il messaggio $m$ finire dentro una funzione di Hash prima di essere "moltiplicato" o "esponenziato" con le chiavi.
+
+---
+
+### 14. (Dal pdf) Il Prossimo Capitolo: DSA
 
 **Testo Originale:**
 
@@ -454,7 +505,7 @@ Questo algoritmo è un pezzo di storia: è stato lo standard ufficiale del gover
 
 Smontiamo questo capolavoro e scopriamo il suo tallone d'Achille nascosto negli appunti del prof!
 
-### 15. Il Setup: Terreno Condiviso e Chiavi (La Fabbrica)
+### 15. (Dal pdf) Il Setup: Terreno Condiviso e Chiavi (La Fabbrica)
 
 **Testo Originale:**
 
@@ -483,7 +534,7 @@ Tu crei la tua **chiave privata ($x$)** scegliendo un numero a caso. Poi calcoli
 
 ---
 
-### 16. La Firma e l'Avvertimento Letale (La Funzione `Sign`)
+### 16. (Dal pdf) La Firma e l'Avvertimento Letale (La Funzione `Sign`)
 
 **Testo Originale:**
 
@@ -510,7 +561,7 @@ Se tu, per pigrizia o per un bug del software, usi lo stesso dado $k$ per firmar
 
 ---
 
-### 17. La Verifica Magica (La Funzione `Ver` e la Prova)
+### 17.(Dal pdf)  La Verifica Magica (La Funzione `Ver` e la Prova)
 
 **Testo Originale:**
 
@@ -732,8 +783,6 @@ Ci sta dicendo che **anche ElGamal possiede la Proprietà Omomorfica**.
 Questo significa che, sebbene ElGamal fosse un bunker inattaccabile contro l'hacker "passivo" (test IND-CPA), non appena mettiamo l'hacker di fronte a un Oracolo CCA, **anche ElGamal crollerà miseramente**. L'hacker potrà manipolare i file cifrati di ElGamal per ingannare l'Oracolo esattamente come ha appena fatto con RSA.
 
 Per risolvere questo problema finale, la crittografia moderna deve usare schemi ancora più complessi (come _Cramer-Shoup_ o il _Padding OAEP_ di cui parlavamo prima) per distruggere ogni traccia di malleabilità.
-
-Per farti provare la soddisfazione di ingannare l'Oracolo, ho preparato un simulatore dell'Attacco CCA. Fai finta di avere in mano il file top-secret $c^*$, mascherarlo con il trucco del "$\times 2$" e fregare il server!
 
 ---
 Il professore chiude il capitolo della crittografia a chiave pubblica asimmetrica con l'arma definitiva. Questa è la vera ingegneria crittografica usata oggi su Internet.
