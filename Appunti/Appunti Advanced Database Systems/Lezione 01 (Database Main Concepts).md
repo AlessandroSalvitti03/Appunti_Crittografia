@@ -6,9 +6,7 @@
     
 - **Dati vs Informazioni:** Nella maggior parte dei sistemi informatici, le informazioni sono rappresentate per mezzo di dati. I dati sono "fatti grezzi" che devono essere interpretati e correlati per fornire informazioni. Ad esempio, "John Smith" e "25755" sono due dati distinti (una stringa e un numero); ma se forniti in risposta alla domanda "Chi è il capo dipartimento e qual è il suo interno?", ne ricaviamo un'informazione.
     
-
 ![Data Information Knowledge Wisdom hierarchy, generata con l'AI](https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSS5nTs8pC05NUGHpih2ywLsxMihe1iKzXx6JvhvubaFlbBy6tjPO5MUTy9NQArs-o9svXkz29CIr-qqn2PHEgzU9Qge66SGFm9EFCqH4AmcC3YS9U)
-
 - **Il Valore dei Dati:** I dati sono una risorsa preziosa con un ciclo di vita molto lungo: le applicazioni bancarie, ad esempio, hanno dati con la stessa struttura da secoli, ben prima dell'invenzione dei computer.
     
 
