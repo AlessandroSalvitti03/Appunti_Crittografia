@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "8f2c3fa7a386822a",
+        "id": "c2a807956eda86a0",
         "type": "tabs",
         "children": [
           {
-            "id": "50787d5240e513b0",
+            "id": "e43f0e4649a8d6a7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Appunti Crittografia/Lezione 22-23.md",
+                "file": "Appunti Embedded System/Lezione 1 - Introduzione ai Sistemi Embedded e Metodologie di Co-Design Hardware-Software.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Lezione 22-23"
+              "title": "Lezione 1 - Introduzione ai Sistemi Embedded e Metodologie di Co-Design Hardware-Software"
             }
           }
         ]
@@ -197,8 +197,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "50787d5240e513b0",
+  "active": "e43f0e4649a8d6a7",
   "lastOpenFiles": [
+    "Appunti Embedded System/Lezione 2 - Progettazione di Processori Custom Single-Purpose (Hardware).md",
+    "Appunti Embedded System/Lezione 3 - Tecnologie dei Circuiti Integrati (IC) e Dispositivi Logici Programmabili (ASIC, PLD e FPGA).md",
+    "Appunti Embedded System/Lezione 1 - Introduzione ai Sistemi Embedded e Metodologie di Co-Design Hardware-Software.md",
+    "Appunti Crittografia/Lezione 22-23.md",
     "Appunti Algorithms and Data Structures/01 Introduction.md",
     "Appunti Algorithms and Data Structures/Pianificazione Appunti.md",
     "Appunti Advanced Database Systems/Lezione 01 (Database Main Concepts).md",
@@ -206,7 +210,6 @@
     "Appunti Advanced Database Systems/Lezione 13 (Database Vettoriali).md",
     "Appunti Advanced Database Systems/Lezione 07 (Transaction Processing System Pt.2).md",
     "Appunti Algorithms and Data Structures/03 Sorting.md",
-    "Appunti Crittografia/Lezione 22-23.md",
     "Appunti Crittografia/Lezione 21.md",
     "Appunti Crittografia/Lezione 20 Non lo ha spigato.md",
     "Appunti Crittografia/Lezione 19.md",
@@ -229,9 +232,6 @@
     "Appunti Advanced Database Systems/Lezione 03 (Structural Organization and Query Management Pt.1).md",
     "Appunti Advanced Database Systems/Lezione 05 (Structural Organization and Query Management Pt.3).md",
     "Appunti Advanced Database Systems/Lezione 06 (Transaction Processing System Pt.1).md",
-    "Appunti Advanced Database Systems/Lezione 08 (Transaction Processing System Pt.3).md",
-    "Appunti Advanced Database Systems/Lezione 10 (Distributed Database Pt.2).md",
-    "Appunti Advanced Database Systems/Lezione 09 (Distributed Database Pt.1).md",
     "Appunti Advanced Database Systems/IMG ADB/Pasted image 20260504154800.png",
     "Appunti Advanced Database Systems/IMG ADB/Pasted image 20260504154702.png",
     "Appunti Advanced Database Systems/IMG ADB/Pasted image 20260504154123.png",

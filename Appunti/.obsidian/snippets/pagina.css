@@ -1,0 +1,13 @@
+@media print {
+  /* Evita interruzioni subito dopo i titoli */
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Impedisce di spezzare a metà blocchi di codice, tabelle e callout */
+  table, pre, .callout, blockquote {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
